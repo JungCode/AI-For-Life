@@ -100,7 +100,7 @@ const AnimatedDocumentCards = () => {
           transition={{ duration: 0.7, ease: "easeInOut" }}
           className="absolute w-full flex justify-center"
         >
-          <Card className="w-[90%] h-[150px] bg-muted p-4">
+          <Card className="w-[90%] h-[150px] bg-black p-4 ">
             <div className="space-y-2">
               <div className="h-5 mb-3 bg-muted-foreground/30 rounded w-1/2" />
               <div className="h-3 bg-muted-foreground/20 rounded w-full" />
