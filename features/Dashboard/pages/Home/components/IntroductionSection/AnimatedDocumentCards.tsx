@@ -61,7 +61,7 @@ const AnimatedDocumentCards = () => {
   const next = documents[(index + 1) % documents.length];
 
   return (
-    <div className="relative w-xl h-[350px] flex items-center justify-center overflow-hidden">
+    <div className="relative w-xl h-[350px] flex items-center justify-center overflow-hidden ">
       <AnimatePresence>
         {/* Card focus */}
         <motion.div
@@ -72,14 +72,14 @@ const AnimatedDocumentCards = () => {
           transition={{ duration: 0.7, ease: "easeInOut" }}
           className="absolute w-full flex justify-center"
         >
-          <Card className="w-[95%] h-[170px] p-7 shadow-md bg-card">
+          <Card className="w-[95%] h-[170px] p-7 shadow-md bg-black/50 backdrop-blur-md border-purple-500/50">
             {/* animate nội dung */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h3 className="font-semibold text-2xl mb-2 text-chart-1">
+              <h3 className="font-semibold text-2xl mb-2 block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-teal-400">
                 {current.title}
               </h3>
               {current.content.map((line, i) => (

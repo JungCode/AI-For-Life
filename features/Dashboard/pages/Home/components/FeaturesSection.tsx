@@ -67,7 +67,7 @@ const FeaturesSection = () => {
             return (
               <Card
                 key={index}
-                className="group relative overflow-hidden border-border bg-card p-6 transition-all hover:border-chart-1/50 hover:shadow-lg hover:shadow-chart-1/5"
+                className="group relative overflow-hidden border-border bg-black/50 backdrop-blur-md p-6 transition-all hover:border-chart-1/50 hover:shadow-lg hover:shadow-chart-1/5"
               >
                 <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-chart-1/10 text-chart-1 transition-colors group-hover:bg-chart-1/20">
                   <Icon className="h-6 w-6" />

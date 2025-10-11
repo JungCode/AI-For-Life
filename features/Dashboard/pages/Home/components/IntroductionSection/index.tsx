@@ -18,8 +18,8 @@ const IntroductionSection = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="flex gap-12 items-center justify-between">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl transform rotate-1" />
-            <div className="relative bg-card rounded-3xl p-8 shadow-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent border border-teal-500/20 rounded-3xl transform rotate-1" />
+            <div className="relative bg-black rounded-3xl p-8 shadow-xl">
               <AnimatedDocumentCards />
             </div>
           </div>

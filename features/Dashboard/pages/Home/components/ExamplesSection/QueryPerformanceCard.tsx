@@ -15,7 +15,7 @@ const QueryPerformanceCard = () => {
   ];
 
   return (
-    <Card className="bg-card border-border">
+    <Card className="border-border bg-white/5 backdrop-blur-md">
       <CardHeader className="pb-2">
         <CardTitle className="text-base font-medium text-foreground">
           Avg Query Speed
@@ -23,10 +23,10 @@ const QueryPerformanceCard = () => {
       </CardHeader>
       <CardContent>
         <div className="text-3xl font-bold text-foreground">24.5ms</div>
-        <div className="flex items-center gap-1 text-sm text-chart-5 mt-1">
+        <div className="flex items-center gap-1 text-sm text-teal-500 mt-1">
           <TrendingUp className="h-4 w-4" />
           <span>+32% faster than last week</span>
-        </div>  
+        </div>
         <div className="flex items-end gap-1 h-20 mt-6">
           {performanceData.map((bar, i) => (
             <div

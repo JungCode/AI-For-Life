@@ -24,7 +24,7 @@ const GraphNodesCard = () => {
     .join(" ");
 
   return (
-    <Card className="bg-card border-border">
+    <Card className="border-border bg-white/5 backdrop-blur-md">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base font-medium text-foreground">
@@ -41,7 +41,7 @@ const GraphNodesCard = () => {
       </CardHeader>
       <CardContent>
         <div className="text-3xl font-bold text-foreground">+8,547</div>
-        <div className="flex items-center gap-1 text-sm text-chart-5 mt-1">
+        <div className="flex items-center gap-1 text-sm text-teal-500 mt-1">
           <TrendingUp className="h-4 w-4" />
           <span>+245.3% from last month</span>
         </div>

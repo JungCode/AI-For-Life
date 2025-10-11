@@ -21,7 +21,7 @@ const DatabaseActivityCard = () => {
   ];
 
   return (
-    <Card className="bg-card border-border">
+    <Card className="border-border bg-white/5 backdrop-blur-md">
       <CardHeader className="pb-2">
         <CardTitle className="text-base font-medium text-foreground flex items-center gap-2">
           <Database className="h-4 w-4" />
@@ -55,7 +55,7 @@ const DatabaseActivityCard = () => {
             />
           ))}
         </div>
-        <Button className="w-full bg-muted text-foreground hover:bg-muted/80">
+        <Button className="w-full text-foreground bg-white/20 backdrop-blur-md hover:bg-muted/80">
           View Details
         </Button>
       </CardContent>

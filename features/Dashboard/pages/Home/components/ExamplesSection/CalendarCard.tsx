@@ -6,7 +6,7 @@ export function CalendarCard() {
   const daysInMonth = Array.from({ length: 30 }, (_, i) => i + 1);
 
   return (
-    <Card>
+    <Card className="bg-white/5 backdrop-blur-md">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium">June 2025</CardTitle>
