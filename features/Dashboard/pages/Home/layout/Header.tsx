@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Github, Menu, X } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 type NavigationContent = {
@@ -10,6 +11,7 @@ type NavigationContent = {
 };
 
 const navigationContents: NavigationContent[] = [
+  { name: "Chat", href: "/chat" },
   { name: "Our Products", href: "/our-products" },
   { name: "Resources", href: "/resources" },
   { name: "About Us", href: "/about-us" },
@@ -47,12 +49,13 @@ const Header = () => {
         <div className="mr-4 hidden md:flex ml-6">
           <nav className="flex items-center gap-6 text-sm">
             {navigationContents.map((item) => (
-              <a
+              <Link
                 className="transition-colors hover:text-foreground/80 text-foreground/60"
                 href={item.href}
+                key={item.name}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
