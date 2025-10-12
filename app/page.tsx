@@ -10,7 +10,7 @@ import { HowItWorksSection } from "@/features/Dashboard/pages/Home/components/Ho
 import { RagTechnologySection } from "@/features/Dashboard/pages/Home/components/RagTechnologySection";
 import { ResearchFeaturesSection } from "@/features/Dashboard/pages/Home/components/ResearchFeaturesSection";
 import { UseCasesSection } from "@/features/Dashboard/pages/Home/components/UseCasesSection";
-import { Footer } from "@/features/Dashboard/pages/Home/layout/Footer";
+import { Footer } from "@/features/Dashboard/layout/Footer";
 
 export default function HomePage() {
   return (
