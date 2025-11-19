@@ -7,10 +7,9 @@ import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "shadcn/ui - The Foundation for your Design System",
+  title: "Click",
   description:
     "A set of beautifully designed components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code.",
-  generator: "v0.app",
 };
 
 export default function RootLayout({

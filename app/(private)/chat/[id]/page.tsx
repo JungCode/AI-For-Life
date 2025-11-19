@@ -2,7 +2,7 @@
 
 import { PanelLeftClose, PanelLeft } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import type React from "react";
 
 import { Button } from "@/components/ui/button";

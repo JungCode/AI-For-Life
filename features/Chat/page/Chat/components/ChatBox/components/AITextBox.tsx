@@ -1,4 +1,4 @@
-import { IMessage } from "@/app/chat/[id]/page";
+import { IMessage } from "@/app/(private)/chat/[id]/page";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLinkIcon, FileText, Sparkles } from "lucide-react";

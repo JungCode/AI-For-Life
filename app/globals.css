@@ -207,6 +207,52 @@
   }
 }
 
+@keyframes float-orbit-1 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.5;
+  }
+  25% {
+    transform: translate(100px, -50px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(50px, 100px);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate(-80px, 60px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.5;
+  }
+}
+
+@keyframes float-orbit-2 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(-100px, 50px);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50px, -100px);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate(80px, -60px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+}
+
 .animate-float-slow {
   animation: float-slow 10s ease-in-out infinite;
 }
@@ -222,4 +268,12 @@
 /* Added new diagonal animation class */
 .animate-float-diagonal {
   animation: float-diagonal 10s ease-in-out infinite;
+}
+
+.animate-float-orbit-1 {
+  animation: float-orbit-1 4s ease-in-out infinite;
+}
+
+.animate-float-orbit-2 {
+  animation: float-orbit-2 5s ease-in-out infinite;
 }

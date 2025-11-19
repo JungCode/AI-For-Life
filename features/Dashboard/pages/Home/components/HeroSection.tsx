@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -24,8 +25,8 @@ const HeroSection = () => {
           Open Code.
         </p>
         <div className="flex w-full flex-col items-center justify-center space-y-2 py-4 sm:flex-row sm:space-x-4 sm:space-y-0 md:pb-10">
-          <Button size="lg" className="w-full sm:w-auto ">
-            Get Started
+          <Button size="lg" className="cursor-pointer w-full sm:w-auto ">
+            <Link href="/auth/login">Get Started</Link>
           </Button>
           <Button
             variant="ghost"

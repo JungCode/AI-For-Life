@@ -1,4 +1,4 @@
-import { IInputMessage } from "@/app/chat/[id]/page";
+import { IInputMessage } from "@/app/(private)/chat/[id]/page";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Send, Sparkles } from "lucide-react";

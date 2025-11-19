@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 // TODO: remove this mock import
-import { IChatSession } from "@/app/chat/[id]/page";
+import { IChatSession } from "@/app/(private)/chat/[id]/page";
 
 interface ISideBarProps {
   isSidebarOpen: boolean;

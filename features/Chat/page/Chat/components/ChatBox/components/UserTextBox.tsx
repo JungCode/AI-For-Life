@@ -1,4 +1,4 @@
-import { IMessage } from "@/app/chat/[id]/page";
+import { IMessage } from "@/app/(private)/chat/[id]/page";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import React from "react";
 

@@ -10,7 +10,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-import { IInputMessage, IMessage } from "@/app/chat/[id]/page";
+import { IInputMessage, IMessage } from "@/app/(private)/chat/[id]/page";
 import { AITextBox } from "./components/AITextBox";
 import { UserTextBox } from "./components/UserTextBox";
 import { SearchingAvatar } from "./components/SearchingAvatar";
