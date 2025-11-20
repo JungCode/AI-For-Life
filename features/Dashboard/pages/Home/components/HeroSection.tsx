@@ -25,9 +25,11 @@ const HeroSection = () => {
           Open Code.
         </p>
         <div className="flex w-full flex-col items-center justify-center space-y-2 py-4 sm:flex-row sm:space-x-4 sm:space-y-0 md:pb-10">
-          <Button size="lg" className="cursor-pointer w-full sm:w-auto ">
-            <Link href="/auth/login">Get Started</Link>
-          </Button>
+          <Link href="/auth/login">
+            <Button size="lg" className="cursor-pointer w-full sm:w-auto ">
+              Get Started
+            </Button>
+          </Link>
           <Button
             variant="ghost"
             size="lg"

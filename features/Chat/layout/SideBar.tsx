@@ -15,31 +15,32 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 // TODO: remove this mock import
-import { IChatSession } from "@/app/(private)/chat/[id]/page";
+import { IChatSession } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 
-interface ISideBarProps {
+interface ISidebarProps {
   isSidebarOpen: boolean;
   chatSessions: IChatSession[];
 }
 
-const SideBar = ({ isSidebarOpen, chatSessions }: ISideBarProps) => {
-  const { id: currentSessionId } = useParams();
+const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
+  const { sessionId: currentSessionId, workspaceId: currentWorkspaceId } =
+    useParams();
   const router = useRouter();
 
   const handleChangeSession = (sessionId: string) => () => {
     if (sessionId === currentSessionId) return;
 
-    router.push(`/chat/${sessionId}`);
+    router.push(`/workspace/${currentWorkspaceId}/chat/${sessionId}`);
   };
 
   const handleDeleteSession = (sessionId: string) => () => {
     if (sessionId === currentSessionId) {
-      router.replace("/chat");
+      router.replace(`/workspace/${currentWorkspaceId}/chat`);
     }
   };
 
   const handleOpenNewChat = () => () => {
-    router.push("/chat/new-chat");
+    router.push(`/workspace/${currentWorkspaceId}/chat/new-chat`);
   };
 
   return (
@@ -142,4 +143,4 @@ const SideBar = ({ isSidebarOpen, chatSessions }: ISideBarProps) => {
   );
 };
 
-export { SideBar };
+export { Sidebar };

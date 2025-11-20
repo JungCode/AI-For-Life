@@ -161,12 +161,14 @@ export default function LoginPage() {
           </div>
 
           {/* Guest Button */}
-          <Button
-            variant="outline"
-            className="w-full border-purple-500/20 hover:border-purple-500/50 bg-background/20 text-foreground"
-          >
-            Continue as Guest
-          </Button>
+          <Link href="/workspace/">
+            <Button
+              variant="outline"
+              className="cursor-pointer w-full border-purple-500/20 hover:border-purple-500/50 bg-background/20 text-foreground"
+            >
+              Continue as Guest
+            </Button>
+          </Link>
         </div>
 
         {/* Sign Up Link */}

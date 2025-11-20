@@ -1,36 +1,13 @@
 "use client";
 
-import { PanelLeftClose, PanelLeft } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import type React from "react";
 
-import { Button } from "@/components/ui/button";
-
-import { SideBar } from "@/features/Chat/layout/SideBar";
 import { InstructionChat } from "@/features/Chat/page/Chat/components/InstructionChat";
 import { ChatBox } from "@/features/Chat/page/Chat/components/ChatBox";
-
-const chatSessionsMock: IChatSession[] = [
-  {
-    id: "1",
-    title: "RAG Architecture Discussion",
-    lastMessage: "Explain RAG architecture in research",
-    timestamp: new Date(Date.now() - 3600000),
-  },
-  {
-    id: "2",
-    title: "Machine Learning Trends",
-    lastMessage: "Latest trends in machine learning",
-    timestamp: new Date(Date.now() - 7200000),
-  },
-  {
-    id: "3",
-    title: "Paper Evaluation Methods",
-    lastMessage: "How to evaluate paper credibility?",
-    timestamp: new Date(Date.now() - 86400000),
-  },
-];
+import { ChatContext } from "./layout";
+import { useChatContext } from "@/features/Chat/hooks/useChatContext";
 
 const aiMessage: IMessage = {
   id: (Date.now() + 1).toString(),
@@ -82,11 +59,10 @@ export interface IChatSession {
 export default function ChatPage() {
   const [messages, setIMessages] = useState<IMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [chatSessions, setChatSessions] =
-    useState<IChatSession[]>(chatSessionsMock);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const { setChatSessions } = useChatContext();
 
   const { register, handleSubmit, setValue } = useForm<IInputMessage>();
 
@@ -132,48 +108,20 @@ export default function ChatPage() {
   }, [messages]);
 
   return (
-    <div className="flex h-screen bg-background text-foreground">
-      <SideBar isSidebarOpen={isSidebarOpen} chatSessions={chatSessions} />
-
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex h-14 items-center gap-2 border-b border-border/50 bg-card/30 px-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          >
-            {isSidebarOpen ? (
-              <PanelLeftClose className="h-5 w-5" />
-            ) : (
-              <PanelLeft className="h-5 w-5" />
-            )}
-          </Button>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">
-              Nhan GPT 1.0
-            </span>
-          </div>
-        </header>
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex-1 overflow-hidden"
-        >
-          {messages.length === 0 ? (
-            <InstructionChat
-              setValue={setValue}
-              register={register}
-              isLoading={isLoading}
-            />
-          ) : (
-            <ChatBox
-              register={register}
-              messages={messages}
-              isLoading={isLoading}
-            />
-          )}
-        </form>
-      </div>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-hidden">
+      {messages.length === 0 ? (
+        <InstructionChat
+          setValue={setValue}
+          register={register}
+          isLoading={isLoading}
+        />
+      ) : (
+        <ChatBox
+          register={register}
+          messages={messages}
+          isLoading={isLoading}
+        />
+      )}
+    </form>
   );
 }
