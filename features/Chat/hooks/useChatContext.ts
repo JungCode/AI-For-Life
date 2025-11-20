@@ -1,6 +1,5 @@
+import { ChatContext } from "@/shared/context/ChatContext";
 import { useContext } from "react";
-
-import { ChatContext } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/layout";
 
 export function useChatContext() {
   const ctx = useContext(ChatContext);

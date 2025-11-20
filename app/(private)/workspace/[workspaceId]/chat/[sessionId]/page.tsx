@@ -6,7 +6,6 @@ import type React from "react";
 
 import { InstructionChat } from "@/features/Chat/page/Chat/components/InstructionChat";
 import { ChatBox } from "@/features/Chat/page/Chat/components/ChatBox";
-import { ChatContext } from "./layout";
 import { useChatContext } from "@/features/Chat/hooks/useChatContext";
 
 const aiMessage: IMessage = {

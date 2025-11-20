@@ -2,6 +2,7 @@
 
 import { Header } from "@/features/Chat/layout/Header";
 import { Sidebar } from "@/features/Chat/layout/Sidebar";
+import { ChatContext } from "@/shared/context/ChatContext";
 import React, { createContext, useState } from "react";
 
 export interface IChatSession {
@@ -9,11 +10,6 @@ export interface IChatSession {
   title: string;
   lastMessage: string;
   timestamp: Date;
-}
-
-interface ChatContextType {
-  chatSessions: IChatSession[];
-  setChatSessions: React.Dispatch<React.SetStateAction<IChatSession[]>>;
 }
 
 const chatSessionsMock: IChatSession[] = [
@@ -36,8 +32,6 @@ const chatSessionsMock: IChatSession[] = [
     timestamp: new Date(Date.now() - 86400000),
   },
 ];
-
-export const ChatContext = createContext<ChatContextType | null>(null);
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
