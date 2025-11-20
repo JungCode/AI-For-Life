@@ -1,4 +1,4 @@
-import { WorkspaceContext } from "@/app/(private)/workspace/page";
+import { WorkspaceContext } from "@/shared/context/WorkspaceContext";
 import { useContext } from "react";
 
 export function useWorkspaceContext() {
