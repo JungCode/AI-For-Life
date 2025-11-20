@@ -6,6 +6,7 @@ import { createContext, useState } from "react";
 import { Sidebar } from "@/features/Workspace/layout/Sidebar";
 import Header from "@/features/Workspace/layout/Header";
 import { CreateWorkspaceModal } from "@/features/Workspace/components/CreateWorkspaceModal";
+import { WorkspaceContext } from "@/shared/context/WorkspaceContext";
 
 interface ChatSession {
   id: string;
@@ -24,19 +25,6 @@ export interface Workspace {
   members: number;
   sessions: ChatSession[];
 }
-
-interface WorkspaceContextType {
-  searchQuery: string;
-  selectedWorkspace: Workspace | null;
-  isCreateModalOpen: boolean;
-  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  setSelectedWorkspace: React.Dispatch<React.SetStateAction<Workspace | null>>;
-  setIsCreateModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export const WorkspaceContext = createContext<WorkspaceContextType | null>(
-  null
-);
 
 export default function WorkspacesPage() {
   const [searchQuery, setSearchQuery] = useState("");
