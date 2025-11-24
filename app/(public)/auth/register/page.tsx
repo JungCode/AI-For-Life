@@ -5,6 +5,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSignUpMutation } from "@/shared/generated/schemas";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface SignUpFormInputs {
   fullName: string;
@@ -21,22 +24,42 @@ export default function RegisterPage() {
     watch,
     formState: { errors },
   } = useForm<SignUpFormInputs>();
+
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const password = watch("password");
+
+  const password = watch("password", "");
+
+  const [signUpMutate, { loading: isLoading }] = useSignUpMutation({
+    onCompleted: (data) => {
+      toast.success("Account created successfully! Welcome aboard.", {
+        description: "You can now sign in with your credentials.",
+      });
+      router.push("/auth/login");
+    },
+    onError: (error) => {
+      toast.error("Registration failed", {
+        description: error.message || "Something went wrong. Please try again.",
+      });
+    },
+  });
 
   const onSubmit = async (data: SignUpFormInputs) => {
-    setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Sign up data:", data);
-      setIsLoading(false);
-    }, 1500);
+    signUpMutate({
+      variables: {
+        input: {
+          email: data.email,
+          password: data.password,
+          firstName: data.fullName.split(" ")[0],
+          lastName: data.fullName.split(" ").slice(1).join(" "),
+        },
+      },
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-teal-950/5 to-background flex items-center justify-center px-6 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-b from-background via-teal-950/5 to-background flex items-center justify-center px-6 py-12 relative overflow-hidden">
       {/* Background gradient elements */}
       <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none animate-float-orbit-2" />
       <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none animate-float-orbit-1" />
@@ -44,7 +67,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-teal-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-2 bg-linear-to-r from-teal-400 to-purple-400 bg-clip-text text-transparent">
             Get Started
           </h1>
           <p className="text-muted-foreground">
@@ -199,7 +222,7 @@ export default function RegisterPage() {
                   required: "You must agree to the terms",
                 })}
                 type="checkbox"
-                className="w-4 h-4 rounded bg-background/50 border border-teal-500/20 cursor-pointer accent-teal-500 mt-1 flex-shrink-0"
+                className="w-4 h-4 rounded bg-background/50 border border-teal-500/20 cursor-pointer accent-teal-500 mt-1 shrink-0"
               />
               <span className="text-sm text-muted-foreground leading-relaxed">
                 I agree to the{" "}
@@ -228,7 +251,7 @@ export default function RegisterPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-teal-500 to-purple-500 hover:from-teal-600 hover:to-purple-600 text-white border-0 py-3 font-semibold transition-all mt-6"
+              className="w-full bg-linear-to-r from-teal-500 to-purple-500 hover:from-teal-600 hover:to-purple-600 text-white border-0 py-3 font-semibold transition-all mt-6"
             >
               {isLoading ? "Creating account..." : "Create Account"}
             </Button>
@@ -261,7 +284,7 @@ export default function RegisterPage() {
             Already have an account?{" "}
             <Link
               href="/auth/login"
-              className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-400 hover:from-teal-300 hover:to-purple-300 font-semibold transition-all"
+              className="text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-purple-400 hover:from-teal-300 hover:to-purple-300 font-semibold transition-all"
             >
               Sign in
             </Link>

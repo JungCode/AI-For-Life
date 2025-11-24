@@ -1,0 +1,6 @@
+mutation SignUp($input: ClientSignUpDTO!) {
+  signUp(input: $input) {
+    accessToken
+    refreshToken
+  }
+}

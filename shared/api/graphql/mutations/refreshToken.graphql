@@ -1,0 +1,6 @@
+mutation RefreshToken($input: RefreshTokenDto!) {
+  refreshToken(input: $input) {
+    accessToken
+    refreshToken
+  }
+}

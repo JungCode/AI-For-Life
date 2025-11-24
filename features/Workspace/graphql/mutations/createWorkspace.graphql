@@ -1,0 +1,8 @@
+mutation Mutation($input: ClientCreateWorkspaceDto!) {
+  createWorkspace(input: $input) {
+    avatarKey
+    createdAt
+    id
+    name
+  }
+}

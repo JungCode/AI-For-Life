@@ -5,6 +5,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLogInMutation } from "@/shared/generated/schemas";
+import { toast } from "sonner";
+import { useAuth } from "@/shared/hooks/useAuth";
+import { useRouter } from "next/dist/client/components/navigation";
 
 interface LoginFormInputs {
   email: string;
@@ -18,20 +22,41 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { setAuthToken } = useAuth();
+  const router = useRouter();
 
-  const onSubmit = async (data: LoginFormInputs) => {
-    setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Login data:", data);
-      setIsLoading(false);
-    }, 1500);
+  const [logInMutate, { loading: isLoading }] = useLogInMutation({
+    onCompleted: ({ logIn }) => {
+      setAuthToken(logIn.accessToken, logIn.refreshToken);
+
+      toast.success("Welcome aboard!", {
+        description: "You have successfully logged in.",
+      });
+
+      router.push("/workspace/");
+    },
+    onError: (error) => {
+      toast.error("Login failed", {
+        description: error.message || "Something went wrong. Please try again.",
+      });
+    },
+  });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onSubmit = async ({ email, password }: LoginFormInputs) => {
+    await logInMutate({
+      variables: {
+        input: {
+          email,
+          password,
+        },
+      },
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-purple-950/5 to-background flex items-center justify-center px-6 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-b from-background via-purple-950/5 to-background flex items-center justify-center px-6 py-12 relative overflow-hidden">
       {/* Background gradient elements */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none animate-float-orbit-1" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none animate-float-orbit-2" />
@@ -39,7 +64,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-teal-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-2 bg-linear-to-r from-purple-400 to-teal-400 bg-clip-text text-transparent">
             Welcome Back
           </h1>
           <p className="text-muted-foreground">
@@ -70,11 +95,6 @@ export default function LoginPage() {
                   className="w-full bg-background/50 border border-purple-500/20 rounded-lg pl-10 pr-4 py-3 text-foreground placeholder-muted-foreground focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
                 />
               </div>
-              {errors.email && (
-                <p className="text-red-400 text-sm mt-2">
-                  {errors.email.message}
-                </p>
-              )}
             </div>
 
             {/* Password Field */}
@@ -142,7 +162,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600 text-white border-0 py-3 font-semibold transition-all"
+              className="w-full bg-linear-to-r from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600 text-white border-0 py-3 font-semibold transition-all"
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
@@ -177,7 +197,7 @@ export default function LoginPage() {
             Don't have an account?{" "}
             <Link
               href="/auth/register"
-              className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-teal-400 hover:from-purple-300 hover:to-teal-300 font-semibold transition-all"
+              className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-teal-400 hover:from-purple-300 hover:to-teal-300 font-semibold transition-all"
             >
               Sign up
             </Link>

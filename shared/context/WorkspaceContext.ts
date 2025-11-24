@@ -1,13 +1,14 @@
-import { Workspace } from "@/app/(private)/workspace/page";
-
 import { createContext } from "react";
+import { GetWorkspacesQuery } from "../generated/schemas";
 
 interface WorkspaceContextType {
   searchQuery: string;
-  selectedWorkspace: Workspace | null;
+  selectedWorkspace: GetWorkspacesQuery["getWorkspaces"][0] | null;
   isCreateModalOpen: boolean;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  setSelectedWorkspace: React.Dispatch<React.SetStateAction<Workspace | null>>;
+  setSelectedWorkspace: React.Dispatch<
+    React.SetStateAction<GetWorkspacesQuery["getWorkspaces"][0] | null>
+  >;
   setIsCreateModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

@@ -9,9 +9,10 @@ import {
 import React from "react";
 import { useWorkspaceContext } from "../hooks/useWorkspaceContext";
 import Link from "next/link";
+import { GetWorkspacesQuery } from "@/shared/generated/schemas";
 
 interface IWorkspaceList {
-  workspaces: Workspace[];
+  workspaces: GetWorkspacesQuery["getWorkspaces"];
 }
 
 const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
@@ -22,77 +23,97 @@ const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
       {workspaces.map((workspace) => (
         <div
           key={workspace.id}
-          className="group relative overflow-hidden rounded-xl border border-white/10 hover:border-purple-500/30 transition-all duration-300"
+          className="group relative overflow-hidden rounded-2xl border border-border hover:border-primary/30 transition-all duration-300"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-white/3 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-linear-to-br from-purple-500/5 via-emerald-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-          <div className="relative flex flex-col justify-between h-full p-6 bg-slate-800/40 backdrop-blur-sm border border-white/5">
+          <div className="relative flex flex-col justify-between h-full p-6 bg-card/80 backdrop-blur-sm">
             {/* Header with icon and member count */}
             <div>
               <div className="flex items-start justify-between mb-4">
                 <div
-                  className={`w-14 h-14 rounded-xl bg-gradient-to-br ${workspace.color} flex items-center justify-center text-white text-xl font-bold shadow-lg`}
+                  className={`w-14 h-14 rounded-xl bg-linear-to-br flex items-center justify-center text-white text-xl font-bold shadow-lg`}
                 >
                   {workspace.name.charAt(0)}
                 </div>
 
                 <button
                   onClick={() => setSelectedWorkspace(workspace)}
-                  className="cursor-pointer flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 backdrop-blur"
+                  className="cursor-pointer flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-emerald-500/40 transition-all"
                 >
-                  <Settings size={14} className="text-white" />
+                  <Settings
+                    size={14}
+                    className="text-gray-400 hover:text-emerald-400"
+                  />
                 </button>
               </div>
-              <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 backdrop-blur w-fit mb-4">
-                <Users size={14} className="text-cyan-400" />
-                <span className="text-xs text-gray-300">
-                  {workspace.members}
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 w-fit mb-4">
+                <Users size={14} className="text-emerald-400" />
+                <span className="text-xs text-muted-foreground">
+                  {/* {workspace.members} */}
                 </span>
               </div>
 
               {/* Workspace name and description */}
-              <h4 className="text-lg font-semibold text-white mb-1">
+              <h4 className="text-lg font-semibold text-foreground mb-1">
                 {workspace.name}
               </h4>
-              <p className="text-sm text-gray-400 mb-4 line-clamp-1">
-                {workspace.description}
+              <p className="text-sm text-muted-foreground mb-4 line-clamp-1">
+                {/* {workspace.description} */}
               </p>
 
-              {workspace.sessions.length > 0 && (
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <MessageCircle size={14} className="text-purple-400" />
-                    <span className="text-xs font-semibold text-gray-300">
-                      Recent Sessions
-                    </span>
-                  </div>
-                  {workspace.sessions.slice(0, 2).map((session) => (
-                    <div
-                      key={session.id}
-                      className="p-2 rounded-lg bg-black/30 border border-white/5 group/session hover:border-purple-500/30 transition-all"
-                    >
-                      <p className="text-xs font-medium text-white line-clamp-1">
-                        {session.title}
-                      </p>
-                      <div className="flex items-center justify-between mt-1">
-                        <span className="text-xs text-gray-500">
-                          {session.timestamp}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {session.messages} messages
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <MessageCircle size={14} className="text-purple-400" />
+                  <span className="text-xs font-semibold text-muted-foreground">
+                    Recent Sessions
+                  </span>
                 </div>
-              )}
+                {[
+                  {
+                    id: "s3",
+                    title: "Research Assistant",
+                    preview: "We need to refactor the authentication flow",
+                    timestamp: "3 hours ago",
+                    participants: 6,
+                    messages: 42,
+                    unit: "messages",
+                  },
+                  {
+                    id: "s4",
+                    title: "Mind Map Dynamics",
+                    preview: "Performance metrics are looking good",
+                    timestamp: "2 days ago",
+                    participants: 4,
+                    messages: 23,
+                    unit: "items",
+                  },
+                ].map((session) => (
+                  <div
+                    key={session.id}
+                    className="p-3 rounded-lg bg-muted/30 border border-border group/session hover:border-purple-500/30 hover:bg-linear-to-r hover:from-purple-500/10 hover:to-violet-500/5 transition-all"
+                  >
+                    <p className="text-xs font-medium text-foreground line-clamp-1">
+                      {session.title}
+                    </p>
+                    <div className="flex items-center justify-between mt-1.5">
+                      <span className="text-xs text-muted-foreground">
+                        {session.timestamp}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {session.messages} {session.unit}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Footer action */}
             <div>
               <Link
                 href="workspace/1/chat/1"
-                className="cursor-pointer w-full py-2 px-4 bg-gradient-to-r from-purple-600/80 to-cyan-600/80 hover:from-purple-500 hover:to-cyan-500 text-white font-semibold rounded-lg transition-all duration-300 shadow-md hover:shadow-purple-500/40 flex items-center justify-center gap-2 group-hover:gap-3"
+                className="cursor-pointer w-full py-2.5 px-4 bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300 font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-purple-500/20 flex items-center justify-center gap-2 group-hover:gap-3"
               >
                 <MessageSquare size={16} />
                 <span>Open Workspace</span>

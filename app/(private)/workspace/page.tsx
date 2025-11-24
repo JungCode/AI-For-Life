@@ -7,6 +7,11 @@ import { Sidebar } from "@/features/Workspace/layout/Sidebar";
 import Header from "@/features/Workspace/layout/Header";
 import { CreateWorkspaceModal } from "@/features/Workspace/components/CreateWorkspaceModal";
 import { WorkspaceContext } from "@/shared/context/WorkspaceContext";
+import {
+  GetWorkspacesQuery,
+  useGetWorkspacesQuery,
+} from "@/shared/generated/schemas";
+import { Loader2 } from "lucide-react";
 
 interface ChatSession {
   id: string;
@@ -29,136 +34,17 @@ export interface Workspace {
 export default function WorkspacesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(
-    null
-  );
+  const [selectedWorkspace, setSelectedWorkspace] = useState<
+    GetWorkspacesQuery["getWorkspaces"][0] | null
+  >(null);
 
-  // Mock data
-  const workspaces: Workspace[] = [
-    {
-      id: "1",
-      name: "Product Team",
-      description: "Building amazing features together",
-      color: "from-purple-500 to-indigo-600",
-      members: 5,
-      sessions: [
-        {
-          id: "s1",
-          title: "Q1 Roadmap Discussion",
-          preview: "Let's align on the features for Q1...",
-          timestamp: "2 hours ago",
-          participants: 4,
-          messages: 28,
-        },
-        {
-          id: "s2",
-          title: "Design System Review",
-          preview: "Can we discuss the new color palette?",
-          timestamp: "1 day ago",
-          participants: 3,
-          messages: 15,
-        },
-      ],
-    },
-    {
-      id: "2",
-      name: "Engineering",
-      description: "Technical discussions and code revieworkspace",
-      color: "from-cyan-500 to-blue-600",
-      members: 8,
-      sessions: [
-        {
-          id: "s3",
-          title: "API Architecture Planning",
-          preview: "We need to refactor the authentication flow",
-          timestamp: "3 hours ago",
-          participants: 6,
-          messages: 42,
-        },
-        {
-          id: "s4",
-          title: "Database Optimization",
-          preview: "Performance metrics are looking good",
-          timestamp: "2 days ago",
-          participants: 4,
-          messages: 23,
-        },
-      ],
-    },
-    {
-      id: "3",
-      name: "Design",
-      description: "UI/UX collaboration and feedback",
-      color: "from-pink-500 to-purple-600",
-      members: 3,
-      sessions: [
-        {
-          id: "s5",
-          title: "Homepage Redesign",
-          preview: "Thoughts on the new hero section?",
-          timestamp: "5 hours ago",
-          participants: 2,
-          messages: 31,
-        },
-      ],
-    },
-    {
-      id: "4",
-      name: "Marketing",
-      description: "Campaign planning and execution",
-      color: "from-orange-500 to-amber-600",
-      members: 4,
-      sessions: [
-        {
-          id: "s6",
-          title: "Social Media Strategy Q4",
-          preview: "Let's plan our content calendar...",
-          timestamp: "4 hours ago",
-          participants: 3,
-          messages: 18,
-        },
-      ],
-    },
-    {
-      id: "5",
-      name: "Operations",
-      description: "Team processes and workfloworkspace",
-      color: "from-emerald-500 to-teal-600",
-      members: 6,
-      sessions: [
-        {
-          id: "s7",
-          title: "Q4 Hiring Plan",
-          preview: "We need to expand the team...",
-          timestamp: "1 day ago",
-          participants: 5,
-          messages: 12,
-        },
-      ],
-    },
-    {
-      id: "6",
-      name: "Research",
-      description: "User research and insights",
-      color: "from-violet-500 to-purple-600",
-      members: 2,
-      sessions: [
-        {
-          id: "s8",
-          title: "User Feedback Analysis",
-          preview: "Key insights from recent intervieworkspace...",
-          timestamp: "6 hours ago",
-          participants: 2,
-          messages: 8,
-        },
-      ],
-    },
-  ];
+  const { data, loading } = useGetWorkspacesQuery();
+  const workspaces = data?.getWorkspaces;
 
-  const filteredWorkspaces = workspaces.filter(
+  const filteredWorkspaces = workspaces?.filter(
     (workspace) =>
-      workspace.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      workspace.description.toLowerCase().includes(searchQuery.toLowerCase())
+      workspace.name.toLowerCase().includes(searchQuery.toLowerCase())
+    // workspace.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -173,7 +59,22 @@ export default function WorkspacesPage() {
         setIsCreateModalOpen,
       }}
     >
-      <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      <main className="min-h-screen bg-background relative overflow-hidden">
+        {/* Animated background - same as dashboard */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float-slow" />
+          <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-float-medium" />
+          <div className="absolute top-1/2 left-3/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-float-fast" />
+          <div className="absolute bottom-1/4 left-1/2 w-72 h-72 bg-pink-500/10 rounded-full blur-3xl animate-float-diagonal" />
+          <div className="absolute top-1/3 right-1/3 w-48 h-48 bg-indigo-500/8 rounded-full blur-2xl animate-float-medium" />
+          <div className="absolute bottom-1/3 left-1/6 w-56 h-56 bg-teal-500/8 rounded-full blur-2xl animate-float-fast" />
+          <div className="absolute top-2/3 right-1/6 w-44 h-44 bg-orange-500/8 rounded-full blur-2xl animate-float-diagonal" />
+          <div className="absolute top-1/6 left-1/2 w-32 h-32 bg-violet-500/70 rounded-full blur-xl animate-float-fast" />
+          <div className="absolute bottom-1/6 right-1/6 w-40 h-40 bg-emerald-500/70 rounded-full blur-xl animate-float-slow" />
+          <div className="absolute top-1/2 left-1/6 w-36 h-36 bg-rose-500/70 rounded-full blur-xl animate-float-diagonal" />
+          <div className="absolute bottom-1/2 right-1/2 w-28 h-28 bg-amber-500/70 rounded-full blur-xl animate-float-medium" />
+        </div>
+
         <div className="relative z-10 flex h-screen">
           <Sidebar />
 
@@ -183,7 +84,18 @@ export default function WorkspacesPage() {
               <h3 className="text-2xl font-bold text-white mb-8">
                 All Workspaces
               </h3>
-              <WorkspaceList workspaces={filteredWorkspaces} />
+              {loading ? (
+                <div className="flex items-center justify-center h-64">
+                  <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="h-12 w-12 animate-spin text-purple-400" />
+                    <p className="text-muted-foreground">
+                      Loading workspaces...
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <WorkspaceList workspaces={filteredWorkspaces || []} />
+              )}
             </div>
           </div>
         </div>

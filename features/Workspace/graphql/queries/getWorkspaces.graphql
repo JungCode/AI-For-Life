@@ -1,0 +1,8 @@
+query Query {
+  getWorkspaces {
+    avatarKey
+    createdAt
+    id
+    name
+  }
+}
