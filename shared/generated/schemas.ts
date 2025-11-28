@@ -31,8 +31,19 @@ export type ClientSignUpDto = {
 };
 
 export type ClientSimpleChatRequest = {
-  messages: Array<MessageInput>;
+  message: Scalars['String']['input'];
   threadId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ClientSimpleChatResponse = {
+  __typename?: 'ClientSimpleChatResponse';
+  response: Scalars['String']['output'];
+  threadId: Scalars['String']['output'];
+};
+
+export type ClientUpdateWorkspaceDto = {
+  avatarKey?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
 export type IClientRefreshTokenResponse = {
@@ -67,18 +78,56 @@ export type LoginResponse = {
   refreshToken: Scalars['String']['output'];
 };
 
-export type MessageInput = {
-  content: Scalars['String']['input'];
-  type: Scalars['String']['input'];
+export type MindMapData = {
+  __typename?: 'MindMapData';
+  edges: Array<MindMapEdge>;
+  nodes: Array<MindMapNode>;
+};
+
+export type MindMapEdge = {
+  __typename?: 'MindMapEdge';
+  animated?: Maybe<Scalars['Boolean']['output']>;
+  id: Scalars['ID']['output'];
+  label?: Maybe<Scalars['String']['output']>;
+  source: Scalars['String']['output'];
+  target: Scalars['String']['output'];
+};
+
+export type MindMapNode = {
+  __typename?: 'MindMapNode';
+  content?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  label: Scalars['String']['output'];
+  position?: Maybe<MindMapPosition>;
+  style?: Maybe<MindMapStyle>;
+};
+
+export type MindMapPosition = {
+  __typename?: 'MindMapPosition';
+  x: Scalars['Float']['output'];
+  y: Scalars['Float']['output'];
+};
+
+export type MindMapStyle = {
+  __typename?: 'MindMapStyle';
+  background: Scalars['String']['output'];
+  border: Scalars['String']['output'];
+  borderRadius: Scalars['String']['output'];
+  color: Scalars['String']['output'];
+  fontSize?: Maybe<Scalars['String']['output']>;
+  fontWeight?: Maybe<Scalars['String']['output']>;
+  padding: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createWorkspace: IClientWorkspace;
+  deleteWorkspace: ResponseBaseMessage;
   logIn: LoginResponse;
   logOut: ResponseBaseMessage;
   refreshToken: IClientRefreshTokenResponse;
   signUp: IClientRefreshTokenResponse;
+  updateWorkspace: ResponseBaseMessage;
 };
 
 
@@ -106,17 +155,16 @@ export type MutationSignUpArgs = {
   input: ClientSignUpDto;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  chatWithAgent: Scalars['String']['output'];
-  getWorkspaceInfo: IClientWorkspace;
-  getWorkspaces: Array<IClientWorkspace>;
-  simpleChat: Scalars['String']['output'];
+
+export type MutationUpdateWorkspaceArgs = {
+  input: ClientUpdateWorkspaceDto;
 };
 
-
-export type QueryChatWithAgentArgs = {
-  input: ClientSimpleChatRequest;
+export type Query = {
+  __typename?: 'Query';
+  getWorkspaceInfo: IClientWorkspace;
+  getWorkspaces: Array<IClientWorkspace>;
+  simpleChat: ClientSimpleChatResponse;
 };
 
 
@@ -155,12 +203,24 @@ export type SignUpMutationVariables = Exact<{
 
 export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'IClientRefreshTokenResponse', accessToken: string, refreshToken: string } };
 
-export type MutationMutationVariables = Exact<{
+export type CreateWorkspaceMutationVariables = Exact<{
   input: ClientCreateWorkspaceDto;
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', createWorkspace: { __typename?: 'IClientWorkspace', avatarKey?: string | null, createdAt: any, id: string, name: string } };
+export type CreateWorkspaceMutation = { __typename?: 'Mutation', createWorkspace: { __typename?: 'IClientWorkspace', avatarKey?: string | null, createdAt: any, id: string, name: string } };
+
+export type DeleteWorkspaceMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteWorkspaceMutation = { __typename?: 'Mutation', deleteWorkspace: { __typename?: 'ResponseBaseMessage', message?: string | null, success: boolean } };
+
+export type UpdateWorkspaceMutationVariables = Exact<{
+  input: ClientUpdateWorkspaceDto;
+}>;
+
+
+export type UpdateWorkspaceMutation = { __typename?: 'Mutation', updateWorkspace: { __typename?: 'ResponseBaseMessage', message?: string | null, success: boolean } };
 
 export type GetWorkspacesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -280,8 +340,8 @@ export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<SignU
 export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
-export const MutationDocument = gql`
-    mutation Mutation($input: ClientCreateWorkspaceDto!) {
+export const CreateWorkspaceDocument = gql`
+    mutation CreateWorkspace($input: ClientCreateWorkspaceDto!) {
   createWorkspace(input: $input) {
     avatarKey
     createdAt
@@ -290,32 +350,99 @@ export const MutationDocument = gql`
   }
 }
     `;
-export type MutationMutationFn = Apollo.MutationFunction<MutationMutation, MutationMutationVariables>;
+export type CreateWorkspaceMutationFn = Apollo.MutationFunction<CreateWorkspaceMutation, CreateWorkspaceMutationVariables>;
 
 /**
- * __useMutationMutation__
+ * __useCreateWorkspaceMutation__
  *
- * To run a mutation, you first call `useMutationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useMutationMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateWorkspaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateWorkspaceMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [mutationMutation, { data, loading, error }] = useMutationMutation({
+ * const [createWorkspaceMutation, { data, loading, error }] = useCreateWorkspaceMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useMutationMutation(baseOptions?: Apollo.MutationHookOptions<MutationMutation, MutationMutationVariables>) {
+export function useCreateWorkspaceMutation(baseOptions?: Apollo.MutationHookOptions<CreateWorkspaceMutation, CreateWorkspaceMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<MutationMutation, MutationMutationVariables>(MutationDocument, options);
+        return Apollo.useMutation<CreateWorkspaceMutation, CreateWorkspaceMutationVariables>(CreateWorkspaceDocument, options);
       }
-export type MutationMutationHookResult = ReturnType<typeof useMutationMutation>;
-export type MutationMutationResult = Apollo.MutationResult<MutationMutation>;
-export type MutationMutationOptions = Apollo.BaseMutationOptions<MutationMutation, MutationMutationVariables>;
+export type CreateWorkspaceMutationHookResult = ReturnType<typeof useCreateWorkspaceMutation>;
+export type CreateWorkspaceMutationResult = Apollo.MutationResult<CreateWorkspaceMutation>;
+export type CreateWorkspaceMutationOptions = Apollo.BaseMutationOptions<CreateWorkspaceMutation, CreateWorkspaceMutationVariables>;
+export const DeleteWorkspaceDocument = gql`
+    mutation DeleteWorkspace {
+  deleteWorkspace {
+    message
+    success
+  }
+}
+    `;
+export type DeleteWorkspaceMutationFn = Apollo.MutationFunction<DeleteWorkspaceMutation, DeleteWorkspaceMutationVariables>;
+
+/**
+ * __useDeleteWorkspaceMutation__
+ *
+ * To run a mutation, you first call `useDeleteWorkspaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteWorkspaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteWorkspaceMutation, { data, loading, error }] = useDeleteWorkspaceMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useDeleteWorkspaceMutation(baseOptions?: Apollo.MutationHookOptions<DeleteWorkspaceMutation, DeleteWorkspaceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteWorkspaceMutation, DeleteWorkspaceMutationVariables>(DeleteWorkspaceDocument, options);
+      }
+export type DeleteWorkspaceMutationHookResult = ReturnType<typeof useDeleteWorkspaceMutation>;
+export type DeleteWorkspaceMutationResult = Apollo.MutationResult<DeleteWorkspaceMutation>;
+export type DeleteWorkspaceMutationOptions = Apollo.BaseMutationOptions<DeleteWorkspaceMutation, DeleteWorkspaceMutationVariables>;
+export const UpdateWorkspaceDocument = gql`
+    mutation UpdateWorkspace($input: ClientUpdateWorkspaceDto!) {
+  updateWorkspace(input: $input) {
+    message
+    success
+  }
+}
+    `;
+export type UpdateWorkspaceMutationFn = Apollo.MutationFunction<UpdateWorkspaceMutation, UpdateWorkspaceMutationVariables>;
+
+/**
+ * __useUpdateWorkspaceMutation__
+ *
+ * To run a mutation, you first call `useUpdateWorkspaceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateWorkspaceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateWorkspaceMutation, { data, loading, error }] = useUpdateWorkspaceMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateWorkspaceMutation(baseOptions?: Apollo.MutationHookOptions<UpdateWorkspaceMutation, UpdateWorkspaceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateWorkspaceMutation, UpdateWorkspaceMutationVariables>(UpdateWorkspaceDocument, options);
+      }
+export type UpdateWorkspaceMutationHookResult = ReturnType<typeof useUpdateWorkspaceMutation>;
+export type UpdateWorkspaceMutationResult = Apollo.MutationResult<UpdateWorkspaceMutation>;
+export type UpdateWorkspaceMutationOptions = Apollo.BaseMutationOptions<UpdateWorkspaceMutation, UpdateWorkspaceMutationVariables>;
 export const GetWorkspacesDocument = gql`
     query GetWorkspaces {
   getWorkspaces {

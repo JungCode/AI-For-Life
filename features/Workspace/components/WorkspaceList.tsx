@@ -10,13 +10,23 @@ import React from "react";
 import { useWorkspaceContext } from "../hooks/useWorkspaceContext";
 import Link from "next/link";
 import { GetWorkspacesQuery } from "@/shared/generated/schemas";
+import { EmptyWorkspaceState } from "./EmptyWorkspaceState";
 
 interface IWorkspaceList {
   workspaces: GetWorkspacesQuery["getWorkspaces"];
 }
 
 const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
-  const { setSelectedWorkspace } = useWorkspaceContext();
+  const { setSelectedWorkspace, setIsCreateModalOpen } = useWorkspaceContext();
+
+  // Empty state
+  if (!workspaces || workspaces.length === 0) {
+    return (
+      <EmptyWorkspaceState
+        onCreateWorkspace={() => setIsCreateModalOpen(true)}
+      />
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -32,19 +42,16 @@ const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
             <div>
               <div className="flex items-start justify-between mb-4">
                 <div
-                  className={`w-14 h-14 rounded-xl bg-linear-to-br flex items-center justify-center text-white text-xl font-bold shadow-lg`}
+                  className={`bg-white w-14 h-14 rounded-xl bg-linear-to-br flex items-center justify-center text-black text-xl font-bold shadow-lg`}
                 >
                   {workspace.name.charAt(0)}
                 </div>
 
                 <button
                   onClick={() => setSelectedWorkspace(workspace)}
-                  className="cursor-pointer flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-emerald-500/40 transition-all"
+                  className="cursor-pointer flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all"
                 >
-                  <Settings
-                    size={14}
-                    className="text-gray-400 hover:text-emerald-400"
-                  />
+                  <Settings size={14} className="text-gray-400 " />
                 </button>
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 w-fit mb-4">
@@ -113,7 +120,7 @@ const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
             <div>
               <Link
                 href="workspace/1/chat/1"
-                className="cursor-pointer w-full py-2.5 px-4 bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300 font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-purple-500/20 flex items-center justify-center gap-2 group-hover:gap-3"
+                className="cursor-pointer w-full py-2.5 px-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-foreground font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group-hover:gap-3"
               >
                 <MessageSquare size={16} />
                 <span>Open Workspace</span>

@@ -18,9 +18,9 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import {
+  CreateWorkspaceMutationVariables,
   GetWorkspacesDocument,
-  MutationMutationVariables,
-  useMutationMutation,
+  useCreateWorkspaceMutation,
 } from "@/shared/generated/schemas";
 
 interface CreateWorkspaceModalProps {
@@ -28,14 +28,14 @@ interface CreateWorkspaceModalProps {
   onClose: () => void;
 }
 
-type WorkspaceUpdateInput = MutationMutationVariables["input"];
+type WorkspaceUpdateInput = CreateWorkspaceMutationVariables["input"];
 
 export function CreateWorkspaceModal({
   isOpen,
   onClose,
 }: CreateWorkspaceModalProps) {
   const { register, handleSubmit } = useForm<WorkspaceUpdateInput>({});
-  const [createWorkspace, { loading }] = useMutationMutation({
+  const [createWorkspace, { loading }] = useCreateWorkspaceMutation({
     refetchQueries: [GetWorkspacesDocument],
     onCompleted: () => {
       toast.success("Workspace created successfully!", {

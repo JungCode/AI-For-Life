@@ -1,4 +1,4 @@
-query Query {
+query GetWorkspaces {
   getWorkspaces {
     avatarKey
     createdAt

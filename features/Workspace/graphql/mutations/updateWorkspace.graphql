@@ -1,0 +1,6 @@
+mutation UpdateWorkspace($input: ClientUpdateWorkspaceDto!) {
+  updateWorkspace(input: $input) {
+    message
+    success
+  }
+}

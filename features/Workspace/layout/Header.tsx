@@ -14,7 +14,7 @@ const Header = () => {
           <h2 className="text-3xl font-bold text-foreground">Workspaces</h2>
           <button
             onClick={() => setIsCreateModalOpen(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-purple-500/30"
+            className="cursor-pointer flex items-center gap-2 px-6 py-3 bg-foreground text-background hover:bg-foreground/90 rounded-lg font-semibold transition-all duration-300"
           >
             <Plus size={20} />
             Create workspace

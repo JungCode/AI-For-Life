@@ -1,4 +1,4 @@
-mutation Mutation($input: ClientCreateWorkspaceDto!) {
+mutation CreateWorkspace($input: ClientCreateWorkspaceDto!) {
   createWorkspace(input: $input) {
     avatarKey
     createdAt

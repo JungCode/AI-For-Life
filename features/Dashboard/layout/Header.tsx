@@ -21,7 +21,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="px-6 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex justify-center">
+    <header className="px-6 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 flex justify-center">
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="flex items-center">
           <Button
@@ -64,7 +64,7 @@ const Header = () => {
           <div className="w-full max-w-sm md:w-auto">
             <Button
               variant="outline"
-              className="relative h-8 w-full justify-start rounded-[0.5rem] bg-background text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64"
+              className="relative h-8 w-full justify-start rounded-xl bg-background text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64"
             >
               <span className="hidden sm:inline-flex lg:hidden">Search...</span>
               <span className="hidden lg:inline-flex">

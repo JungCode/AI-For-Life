@@ -14,14 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import {
-  GetWorkspacesQuery,
-  MutationMutationVariables,
-} from "@/shared/generated/schemas";
+import { Loader2, Trash2 } from "lucide-react";
+import { GetWorkspacesQuery } from "@/shared/generated/schemas";
+import { useEditWorkspaceManagement } from "../hooks/useEditWorkspaceManagement";
 
 interface EditWorkspaceModalProps {
   isOpen: boolean;
@@ -34,33 +29,14 @@ export function EditWorkspaceModal({
   onClose,
   workspace,
 }: EditWorkspaceModalProps) {
-  const [loading, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm<
-    MutationMutationVariables["input"]
-  >({
-    values: {
-      name: workspace?.name || "",
-      // description: workspace?.description || "",
-    },
-  });
-
-  const onSubmit = async ({ name }: MutationMutationVariables["input"]) => {
-    if (name === undefined) return;
-
-    if (!name.trim()) {
-      toast.error("Workspace name is required");
-      return;
-    }
-
-    try {
-      toast.success("Workspace updated successfully!");
-      onClose();
-    } catch (error) {
-      toast.error("Failed to update workspace. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    onSubmit,
+    handleDelete,
+    isUpdating,
+    isDeleting,
+  } = useEditWorkspaceManagement({ workspace, onClose });
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -106,28 +82,48 @@ export function EditWorkspaceModal({
             </div>
           </div>
 
-          <DialogFooter className="gap-2">
+          <DialogFooter className="gap-2 sm:justify-between">
             <Button
-              variant="outline"
-              onClick={onClose}
-              className="bg-muted/50 border-border hover:bg-muted"
+              type="button"
+              onClick={handleDelete}
+              disabled={isDeleting || isUpdating}
+              className="sm:mr-auto bg-green-500/10 backdrop-blur-md border border-green-500/20 hover:bg-green-500/20 hover:border-green-500/30 text-green-300 font-semibold shadow-lg shadow-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300 font-semibold shadow-lg shadow-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-            >
-              {loading ? (
+              {isDeleting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
+                  Deleting...
                 </>
               ) : (
-                "Save Changes"
+                <>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
+                </>
               )}
             </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={onClose}
+                className="bg-muted/50 border-border hover:bg-muted"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={isUpdating || isDeleting}
+                className="bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300 font-semibold shadow-lg shadow-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                {isUpdating ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Changes"
+                )}
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>

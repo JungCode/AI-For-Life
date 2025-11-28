@@ -20,6 +20,12 @@ const handleGraphQLError = (
 ) => {
   const key = `${errors.statusCode}:${errors.message}`;
 
+  if (errors.message == HTTP_MESSAGE.UNAUTHORIZED) {
+    localStorage.clear();
+    window.location.href = "/auth/login";
+    return;
+  }
+
   switch (key) {
     case `${HTTP_STATUS.UNAUTHORIZED}:${HTTP_MESSAGE.PERMISSION_DENIED}`:
       handleWorkspaceAccessDenied(operation);

@@ -15,7 +15,7 @@ const Sidebar = () => {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto p-4 space-y-2">
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-linear-to-r from-purple-500/10 to-emerald-500/10 border border-purple-500/20 text-purple-400 font-medium hover:from-purple-500/20 hover:to-emerald-500/20 transition-all">
+        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md text-white font-medium hover:bg-white/15 transition-all">
           <MessageSquare size={20} />
           Workspaces
         </button>

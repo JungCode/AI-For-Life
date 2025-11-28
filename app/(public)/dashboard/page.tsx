@@ -1,8 +1,8 @@
+import { AnimatedBackground } from "@/shared/components/AnimatedBackground";
+
 import {
   HeroSection,
   ExamplesSection,
-  AnimatedBackground,
-  Header,
   IntroductionSection,
 } from "@/features/Dashboard/pages/Home/components";
 import { FeaturesSection } from "@/features/Dashboard/pages/Home/components/FeaturesSection";
@@ -10,6 +10,7 @@ import { RagTechnologySection } from "@/features/Dashboard/pages/Home/components
 import { ResearchFeaturesSection } from "@/features/Dashboard/pages/Home/components/ResearchFeaturesSection";
 import { UseCasesSection } from "@/features/Dashboard/pages/Home/components/UseCasesSection";
 import { Footer } from "@/features/Dashboard/layout/Footer";
+import { Header } from "@/features/Dashboard/layout";
 
 export default function HomePage() {
   return (
