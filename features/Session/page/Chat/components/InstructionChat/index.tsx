@@ -1,4 +1,3 @@
-import { IInputMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { SimpleChatMutationVariables } from "@/shared/generated/schemas";
@@ -30,7 +29,7 @@ const InstructionChat = ({
     <div className="flex h-full items-center justify-center px-4">
       <div className="w-full max-w-2xl space-y-8">
         <div className="flex flex-col items-center space-y-4">
-          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-teal-500/20 ring-1 ring-purple-500/30">
+          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-br from-purple-500/20 to-teal-500/20 ring-1 ring-purple-500/30">
             <Sparkles className="h-10 w-10 text-purple-400" />
           </div>
           <div className="text-center">
@@ -72,7 +71,7 @@ const InstructionChat = ({
           <Button
             type="submit"
             size="icon"
-            className="cursor-pointer h-10 w-10 shrink-0 rounded-xl bg-gradient-to-br from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600"
+            className="cursor-pointer h-10 w-10 shrink-0 rounded-xl bg-linear-to-br from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
