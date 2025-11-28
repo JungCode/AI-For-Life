@@ -7,55 +7,10 @@ import type React from "react";
 import { InstructionChat } from "@/features/Session/page/Chat/components/InstructionChat";
 import { ChatBox } from "@/features/Session/page/Chat/components/ChatBox";
 import { useChatContext } from "@/features/Session/hooks/useChatContext";
-
-const aiMessage: IMessage = {
-  id: (Date.now() + 1).toString(),
-  role: "assistant",
-  content: `# Understanding RAG Technology
-
-Based on your query about that, here's what I found:
-
-The **Retrieval-Augmented Generation (RAG)** model combines the power of large language models with external knowledge retrieval. This approach significantly improves the accuracy and credibility of AI responses by grounding them in verified sources.
-
-## Key Benefits
-
-- Enhanced factual accuracy through source verification
-- Reduced hallucinations in AI responses
-- Transparent citation of research materials
-- Real-time access to updated information
-
-## Technical Overview
-
-The RAG architecture consists of two main components:
-
-1. **Retrieval System**: Searches through a knowledge base to find relevant information
-2. **Generation Model**: Uses the retrieved context to generate accurate, contextual responses
-
-This hybrid approach ensures that responses are not only coherent but also grounded in factual, verifiable information.`,
-  sources: [
-    {
-      title: "Understanding RAG: A Comprehensive Guide",
-      url: "https://example.com/rag-guide",
-      snippet:
-        "RAG architecture combines retrieval systems with generative models...",
-    },
-    {
-      title: "Research Paper Evaluation Methods",
-      url: "https://example.com/paper-eval",
-      snippet: "Credibility assessment involves analyzing citation patterns...",
-    },
-    {
-      title: "AI in Academic Research",
-      url: "https://example.com/ai-research",
-      snippet:
-        "Modern AI assistants leverage RAG to provide accurate information...",
-    },
-  ],
-};
-
-export interface IInputMessage {
-  content: string;
-}
+import {
+  SimpleChatMutationVariables,
+  useSimpleChatMutation,
+} from "@/shared/generated/schemas";
 
 export interface IMessage {
   id: string;
@@ -76,66 +31,84 @@ export interface IChatSession {
 }
 
 export default function ChatPage() {
-  const [messages, setIMessages] = useState<IMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { setChatSessions } = useChatContext();
 
-  const { register, handleSubmit, setValue } = useForm<IInputMessage>();
+  const { register, handleSubmit, setValue } =
+    useForm<SimpleChatMutationVariables["input"]>();
 
-  const onSubmit = async (data: IInputMessage) => {
-    const messageContent = data.content;
+  const [simpleChat, { loading: isLoading }] = useSimpleChatMutation({
+    onCompleted: (data) => {
+      setValue("message", "");
+      const aiMessage: IMessage = {
+        id: Date.now().toString(),
+        role: "assistant",
+        content: data.simpleChat.response,
+      };
+      setMessages((prev) => [...prev, aiMessage]);
+    },
+  });
+
+  const onSubmit = async (data: SimpleChatMutationVariables["input"]) => {
+    const messageContent = data.message;
     if (!messageContent.trim() || isLoading) return;
 
-    const userIMessage: IMessage = {
+    const userMessage: IMessage = {
       id: Date.now().toString(),
       role: "user",
       content: messageContent,
     };
 
-    setIMessages((prev) => [...prev, userIMessage]);
-    setIsLoading(true);
+    simpleChat({
+      variables: {
+        input: {
+          message: messageContent,
+          threadId: "asdfasdfas",
+        },
+      },
+    });
 
-    if (messages.length === 0 && !currentSessionId) {
-      setValue("content", "");
-      // TODO: refectch api instead
-      const newSession: IChatSession = {
-        id: Date.now().toString(),
-        title:
-          messageContent.slice(0, 50) +
-          (messageContent.length > 50 ? "..." : ""),
-        lastMessage: messageContent,
-        timestamp: new Date(),
-      };
-      setChatSessions((prev) => [newSession, ...prev]);
-      setCurrentSessionId(newSession.id);
-    }
+    setMessages((prev) => [...prev, userMessage]);
 
-    // Simulate AI response
-    setTimeout(() => {
-      setIMessages((prev) => [...prev, aiMessage]);
-      setIsLoading(false);
-    }, 2000);
+    // if (messages.length === 0 && !currentSessionId) {
+    //   setValue("message", "");
+    //   // TODO: refectch api instead
+    //   const newSession: IChatSession = {
+    //     id: Date.now().toString(),
+    //     title:
+    //       messageContent.slice(0, 50) +
+    //       (messageContent.length > 50 ? "..." : ""),
+    //     lastMessage: messageContent,
+    //     timestamp: new Date(),
+    //   };
+    //   setChatSessions((prev) => [newSession, ...prev]);
+    //   setCurrentSessionId(newSession.id);
+    // }
   };
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages.length]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-hidden">
       {messages.length === 0 ? (
         <InstructionChat
+          onSubmit={handleSubmit(onSubmit)}
           setValue={setValue}
           register={register}
           isLoading={isLoading}
         />
       ) : (
         <ChatBox
+          scrollRef={scrollRef}
+          onSubmit={handleSubmit(onSubmit)}
           register={register}
           messages={messages}
           isLoading={isLoading}

@@ -12,10 +12,6 @@ import {
   useSimpleChatMutation,
 } from "@/shared/generated/schemas";
 
-export interface IInputMessage {
-  content: string;
-}
-
 export interface IMessage {
   id: string;
   role: "user" | "assistant";
