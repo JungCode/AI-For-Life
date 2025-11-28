@@ -4,14 +4,34 @@ import { useState, useRef, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import type React from "react";
 
-import { InstructionChat } from "@/features/Chat/page/Chat/components/InstructionChat";
-import { ChatBox } from "@/features/Chat/page/Chat/components/ChatBox";
-import { useChatContext } from "@/features/Chat/hooks/useChatContext";
+import { InstructionChat } from "@/features/Session/page/Chat/components/InstructionChat";
+import { ChatBox } from "@/features/Session/page/Chat/components/ChatBox";
+import { useChatContext } from "@/features/Session/hooks/useChatContext";
 
 const aiMessage: IMessage = {
   id: (Date.now() + 1).toString(),
   role: "assistant",
-  content: `Based on your query about that, here's what I found:\n\nThe Retrieval-Augmented Generation (RAG) model combines the power of large language models with external knowledge retrieval. This approach significantly improves the accuracy and credibility of AI responses by grounding them in verified sources.\n\nKey benefits include:\n• Enhanced factual accuracy through source verification\n• Reduced hallucinations in AI responses\n• Transparent citation of research materials\n• Real-time access to updated informationBased on your query about that, here's what I found:\n\nThe Retrieval-Augmented Generation (RAG) model combines the power of large language models with external knowledge retrieval. This approach significantly improves the accuracy and credibility of AI responses by grounding them in verified sources.\n\nKey benefits include:\n• Enhanced factual accuracy through source verification\n• Reduced hallucinations in AI responses\n• Transparent citation of research materials\n• Real-time access to updated informationBased on your query about that, here's what I found:\n\nThe Retrieval-Augmented Generation (RAG) model combines the power of large language models with external knowledge retrieval. This approach significantly improves the accuracy and credibility of AI responses by grounding them in verified sources.\n\nKey benefits include:\n• Enhanced factual accuracy through source verification\n• Reduced hallucinations in AI responses\n• Transparent citation of research materials\n• Real-time access to updated information`,
+  content: `# Understanding RAG Technology
+
+Based on your query about that, here's what I found:
+
+The **Retrieval-Augmented Generation (RAG)** model combines the power of large language models with external knowledge retrieval. This approach significantly improves the accuracy and credibility of AI responses by grounding them in verified sources.
+
+## Key Benefits
+
+- Enhanced factual accuracy through source verification
+- Reduced hallucinations in AI responses
+- Transparent citation of research materials
+- Real-time access to updated information
+
+## Technical Overview
+
+The RAG architecture consists of two main components:
+
+1. **Retrieval System**: Searches through a knowledge base to find relevant information
+2. **Generation Model**: Uses the retrieved context to generate accurate, contextual responses
+
+This hybrid approach ensures that responses are not only coherent but also grounded in factual, verifiable information.`,
   sources: [
     {
       title: "Understanding RAG: A Comprehensive Guide",

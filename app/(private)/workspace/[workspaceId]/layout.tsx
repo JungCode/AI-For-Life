@@ -1,7 +1,7 @@
 "use client";
 
-import { Header } from "@/features/Chat/layout/Header";
-import { Sidebar } from "@/features/Chat/layout/Sidebar";
+import { Header } from "@/features/Session/layout/Header";
+import { Sidebar } from "@/features/Session/layout/Sidebar";
 import { ChatContext } from "@/shared/context/ChatContext";
 import React, { createContext, useState } from "react";
 

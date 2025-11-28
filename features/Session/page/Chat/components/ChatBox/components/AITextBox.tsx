@@ -1,8 +1,12 @@
-import { IMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { ExternalLinkIcon, FileText, Sparkles } from "lucide-react";
 import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+import { IMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 interface IAITextBoxProps {
   message: IMessage;
@@ -17,7 +21,7 @@ const AITextBox = ({ message }: IAITextBoxProps) => {
             className={
               message.role === "user"
                 ? "bg-muted"
-                : "bg-gradient-to-br from-purple-500 to-teal-500"
+                : "bg-linear-to-br from-purple-500 to-teal-500"
             }
           >
             {message.role === "user" ? "U" : <Sparkles className="h-4 w-4" />}
@@ -27,12 +31,10 @@ const AITextBox = ({ message }: IAITextBoxProps) => {
           <div className="text-sm font-medium">
             {message.role === "user" ? "You" : "Research AI"}
           </div>
-          <div className="prose prose-invert max-w-none text-sm leading-relaxed">
-            {message.content.split("\n").map((line, i) => (
-              <p key={i} className="mb-2 last:mb-0">
-                {line}
-              </p>
-            ))}
+          <div className="prose max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {message.content}
+            </ReactMarkdown>
           </div>
           {message.sources && (
             <div className="mt-4 space-y-2">

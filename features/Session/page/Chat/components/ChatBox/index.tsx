@@ -56,7 +56,7 @@ const ChatBox = ({ messages, register, isLoading }: IChatBoxProps) => {
             <Button
               type="submit"
               size="icon"
-              className="cursor-pointer h-10 w-10 shrink-0 rounded-xl bg-gradient-to-br from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600"
+              className="cursor-pointer h-10 w-10 shrink-0 rounded-xl bg-linear-to-br from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600"
             >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
