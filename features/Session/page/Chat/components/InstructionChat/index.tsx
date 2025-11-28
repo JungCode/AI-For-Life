@@ -1,6 +1,7 @@
 import { IInputMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { SimpleChatMutationVariables } from "@/shared/generated/schemas";
 import { Loader2, Send, Sparkles } from "lucide-react";
 import React from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
@@ -13,12 +14,14 @@ const suggestedPrompts = [
 ];
 
 interface IInstructionChatProps {
-  register: UseFormRegister<IInputMessage>;
-  setValue: UseFormSetValue<IInputMessage>;
+  onSubmit: () => void;
+  register: UseFormRegister<SimpleChatMutationVariables["input"]>;
+  setValue: UseFormSetValue<SimpleChatMutationVariables["input"]>;
   isLoading: boolean;
 }
 
 const InstructionChat = ({
+  onSubmit,
   register,
   isLoading,
   setValue,
@@ -45,7 +48,7 @@ const InstructionChat = ({
             <button
               key={i}
               type="submit"
-              onClick={() => setValue("content", prompt)}
+              onClick={() => setValue("message", prompt)}
               className="cursor-pointer rounded-xl border border-border/50 bg-card/50 p-4 text-left text-sm transition-all hover:border-purple-500/50 hover:bg-card"
             >
               {prompt}
@@ -57,7 +60,14 @@ const InstructionChat = ({
             placeholder="Ask about research papers, topics, or concepts..."
             className="min-h-[60px] max-h-[200px] resize-none border-0 bg-transparent px-3 py-3 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
             disabled={isLoading}
-            {...register("content", { required: true })}
+            {...register("message", { required: true })}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                onSubmit(); // triggers react-hook-form submit
+              }
+            }}
+            {...register("message", { required: true })}
           />
           <Button
             type="submit"

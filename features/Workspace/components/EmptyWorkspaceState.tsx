@@ -37,44 +37,6 @@ const EmptyWorkspaceState = ({
         <Plus className="w-5 h-5 mr-2" />
         Create Your First Workspace
       </Button>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-3xl">
-        <div className="text-center p-6 rounded-xl bg-card/50 border border-border backdrop-blur-sm">
-          <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mx-auto mb-3">
-            <MessageSquare className="w-6 h-6 text-purple-400" />
-          </div>
-          <h4 className="font-semibold text-foreground mb-2">
-            AI Conversations
-          </h4>
-          <p className="text-sm text-muted-foreground">
-            Have intelligent conversations with AI assistants
-          </p>
-        </div>
-
-        <div className="text-center p-6 rounded-xl bg-card/50 border border-border backdrop-blur-sm">
-          <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
-            <Users className="w-6 h-6 text-emerald-400" />
-          </div>
-          <h4 className="font-semibold text-foreground mb-2">
-            Team Collaboration
-          </h4>
-          <p className="text-sm text-muted-foreground">
-            Work together with your team members
-          </p>
-        </div>
-
-        <div className="text-center p-6 rounded-xl bg-card/50 border border-border backdrop-blur-sm">
-          <div className="w-12 h-12 rounded-lg bg-teal-500/10 flex items-center justify-center mx-auto mb-3">
-            <FolderOpen className="w-6 h-6 text-teal-400" />
-          </div>
-          <h4 className="font-semibold text-foreground mb-2">
-            Organize Research
-          </h4>
-          <p className="text-sm text-muted-foreground">
-            Keep all your research materials organized
-          </p>
-        </div>
-      </div>
     </div>
   );
 };

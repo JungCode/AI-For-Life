@@ -2,31 +2,34 @@
 
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { Loader2, Send, Sparkles } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-import {
-  IInputMessage,
-  IMessage,
-} from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
+import { IMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 import { AITextBox } from "./components/AITextBox";
 import { UserTextBox } from "./components/UserTextBox";
 import { SearchingAvatar } from "./components/SearchingAvatar";
+import { SimpleChatMutationVariables } from "@/shared/generated/schemas";
 
 interface IChatBoxProps {
+  onSubmit: () => void;
   messages: IMessage[];
-  register: UseFormRegister<IInputMessage>;
+  register: UseFormRegister<SimpleChatMutationVariables["input"]>;
   isLoading: boolean;
+  scrollRef: React.LegacyRef<HTMLDivElement> | undefined;
 }
 
-const ChatBox = ({ messages, register, isLoading }: IChatBoxProps) => {
-  const scrollRef = React.useRef<HTMLDivElement>(null);
-
+const ChatBox = ({
+  messages,
+  register,
+  isLoading,
+  onSubmit,
+  scrollRef,
+}: IChatBoxProps) => {
   return (
     <div className="flex flex-col h-screen">
       <ScrollArea className="flex-1 overflow-y-auto pb-10" ref={scrollRef}>
@@ -51,7 +54,13 @@ const ChatBox = ({ messages, register, isLoading }: IChatBoxProps) => {
               placeholder="Ask about research papers, topics, or concepts..."
               className="min-h-[60px] max-h-[200px] resize-none border-0 bg-transparent px-3 py-3 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
               disabled={isLoading}
-              {...register("content", { required: true })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  onSubmit(); // triggers react-hook-form submit
+                }
+              }}
+              {...register("message", { required: true })}
             />
             <Button
               type="submit"

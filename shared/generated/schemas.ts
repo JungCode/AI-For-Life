@@ -18,9 +18,24 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type ClientCreateMindMapDto = {
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+};
+
 export type ClientCreateWorkspaceDto = {
   avatarKey?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+};
+
+export type ClientMindMapResponse = {
+  __typename?: 'ClientMindMapResponse';
+  created_at: Scalars['DateTime']['output'];
+  data: MindMapData;
+  id: Scalars['ID']['output'];
+  summary?: Maybe<Scalars['String']['output']>;
+  updated_at: Scalars['DateTime']['output'];
+  workspaceId: Scalars['String']['output'];
 };
 
 export type ClientSignUpDto = {
@@ -87,8 +102,8 @@ export type MindMapData = {
 export type MindMapEdge = {
   __typename?: 'MindMapEdge';
   animated?: Maybe<Scalars['Boolean']['output']>;
+  data?: Maybe<MindMapNodeData>;
   id: Scalars['ID']['output'];
-  label?: Maybe<Scalars['String']['output']>;
   source: Scalars['String']['output'];
   target: Scalars['String']['output'];
 };
@@ -96,10 +111,15 @@ export type MindMapEdge = {
 export type MindMapNode = {
   __typename?: 'MindMapNode';
   content?: Maybe<Scalars['String']['output']>;
+  data?: Maybe<MindMapNodeData>;
   id: Scalars['ID']['output'];
-  label: Scalars['String']['output'];
   position?: Maybe<MindMapPosition>;
   style?: Maybe<MindMapStyle>;
+};
+
+export type MindMapNodeData = {
+  __typename?: 'MindMapNodeData';
+  label?: Maybe<Scalars['String']['output']>;
 };
 
 export type MindMapPosition = {
@@ -121,13 +141,20 @@ export type MindMapStyle = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createMindmap: ClientMindMapResponse;
   createWorkspace: IClientWorkspace;
   deleteWorkspace: ResponseBaseMessage;
   logIn: LoginResponse;
   logOut: ResponseBaseMessage;
   refreshToken: IClientRefreshTokenResponse;
   signUp: IClientRefreshTokenResponse;
+  simpleChat: ClientSimpleChatResponse;
   updateWorkspace: ResponseBaseMessage;
+};
+
+
+export type MutationCreateMindmapArgs = {
+  input: ClientCreateMindMapDto;
 };
 
 
@@ -156,6 +183,11 @@ export type MutationSignUpArgs = {
 };
 
 
+export type MutationSimpleChatArgs = {
+  input: ClientSimpleChatRequest;
+};
+
+
 export type MutationUpdateWorkspaceArgs = {
   input: ClientUpdateWorkspaceDto;
 };
@@ -164,12 +196,6 @@ export type Query = {
   __typename?: 'Query';
   getWorkspaceInfo: IClientWorkspace;
   getWorkspaces: Array<IClientWorkspace>;
-  simpleChat: ClientSimpleChatResponse;
-};
-
-
-export type QuerySimpleChatArgs = {
-  input: ClientSimpleChatRequest;
 };
 
 export type RefreshTokenDto = {
@@ -202,6 +228,13 @@ export type SignUpMutationVariables = Exact<{
 
 
 export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'IClientRefreshTokenResponse', accessToken: string, refreshToken: string } };
+
+export type SimpleChatMutationVariables = Exact<{
+  input: ClientSimpleChatRequest;
+}>;
+
+
+export type SimpleChatMutation = { __typename?: 'Mutation', simpleChat: { __typename?: 'ClientSimpleChatResponse', response: string, threadId: string } };
 
 export type CreateWorkspaceMutationVariables = Exact<{
   input: ClientCreateWorkspaceDto;
@@ -340,6 +373,40 @@ export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<SignU
 export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
+export const SimpleChatDocument = gql`
+    mutation SimpleChat($input: ClientSimpleChatRequest!) {
+  simpleChat(input: $input) {
+    response
+    threadId
+  }
+}
+    `;
+export type SimpleChatMutationFn = Apollo.MutationFunction<SimpleChatMutation, SimpleChatMutationVariables>;
+
+/**
+ * __useSimpleChatMutation__
+ *
+ * To run a mutation, you first call `useSimpleChatMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSimpleChatMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [simpleChatMutation, { data, loading, error }] = useSimpleChatMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSimpleChatMutation(baseOptions?: Apollo.MutationHookOptions<SimpleChatMutation, SimpleChatMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SimpleChatMutation, SimpleChatMutationVariables>(SimpleChatDocument, options);
+      }
+export type SimpleChatMutationHookResult = ReturnType<typeof useSimpleChatMutation>;
+export type SimpleChatMutationResult = Apollo.MutationResult<SimpleChatMutation>;
+export type SimpleChatMutationOptions = Apollo.BaseMutationOptions<SimpleChatMutation, SimpleChatMutationVariables>;
 export const CreateWorkspaceDocument = gql`
     mutation CreateWorkspace($input: ClientCreateWorkspaceDto!) {
   createWorkspace(input: $input) {

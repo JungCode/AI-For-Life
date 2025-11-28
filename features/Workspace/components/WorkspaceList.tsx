@@ -119,7 +119,7 @@ const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
             {/* Footer action */}
             <div>
               <Link
-                href="workspace/1/chat/1"
+                href={`workspace/${workspace.id}/chat`}
                 className="cursor-pointer w-full py-2.5 px-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-foreground font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group-hover:gap-3"
               >
                 <MessageSquare size={16} />
