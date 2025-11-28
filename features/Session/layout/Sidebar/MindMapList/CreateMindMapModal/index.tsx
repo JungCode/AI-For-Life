@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import {
   Dialog,
   DialogContent,
@@ -18,7 +21,10 @@ import {
   SUPPORTED_FILE_FORMATS_DISPLAY,
 } from "@/shared/constants/fileFormats";
 import { UploadButton } from "./UploadButton";
-import { useCreateMindmapMutation } from "@/shared/generated/schemas";
+import {
+  CreateMindmapMutationVariables,
+  useCreateMindmapMutation,
+} from "@/shared/generated/schemas";
 
 interface ICreateMindMapModalProps {
   isOpen: boolean;
@@ -29,9 +35,23 @@ const CreateMindMapModal = ({
   isOpen,
   onOpenChange,
 }: ICreateMindMapModalProps) => {
-  const [title, setTitle] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [createMindmap] = useCreateMindmapMutation();
+
+  const { register, handleSubmit, watch, reset } =
+    useForm<CreateMindmapMutationVariables["input"]>();
+
+  const [createMindmap] = useCreateMindmapMutation({
+    onCompleted: () => {
+      toast.success("Mind map created successfully!");
+      setSelectedFile(null);
+      onOpenChange(false);
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to create mind map");
+    },
+  });
+
+  const titleWatch = watch("title");
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -53,37 +73,24 @@ const CreateMindMapModal = ({
     }
   };
 
-  const handleSubmit = async () => {
-    const data = {
-      title,
-      file: selectedFile
-        ? {
-            name: selectedFile.name,
-            size: selectedFile.size,
-            type: selectedFile.type,
-          }
-        : null,
-    };
+  const onSubmit = async (data: CreateMindmapMutationVariables["input"]) => {
+    if (!selectedFile) return;
 
-    console.log("Mind Map Data:", data);
+    const fileContent = await selectedFile.text();
 
-    if (selectedFile) {
-      const fileContent = await selectedFile.text();
-      console.log("File Content:", fileContent);
-    }
-
-    // Reset form
-    setTitle("");
-    setSelectedFile(null);
-    onOpenChange(false);
+    await createMindmap({
+      variables: {
+        input: {
+          content: fileContent,
+          title: data.title,
+        },
+      },
+    });
   };
 
   const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      // Clear form when closing
-      setTitle("");
-      setSelectedFile(null);
-    }
+    reset();
+    setSelectedFile(null);
     onOpenChange(open);
   };
 
@@ -103,8 +110,7 @@ const CreateMindMapModal = ({
             <Input
               id="title"
               placeholder="Enter mind map title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              {...register("title", { required: true })}
             />
           </div>
           <UploadButton
@@ -115,8 +121,8 @@ const CreateMindMapModal = ({
         <DialogFooter>
           <Button
             type="submit"
-            onClick={handleSubmit}
-            disabled={!title.trim() || !selectedFile}
+            onClick={handleSubmit(onSubmit)}
+            disabled={!titleWatch?.trim() || !selectedFile}
           >
             Create Mind Map
           </Button>

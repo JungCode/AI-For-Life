@@ -17,126 +17,465 @@ import "@xyflow/react/dist/style.css";
 import { generateTreeLayout } from "@/features/Session/page/MindMap/helpers/generateTreeLayout";
 
 // Mock data for mind map nodes (without positions)
-const initialNodesData: Omit<Node, "position">[] = [
+const initialNodesData: Node[] = [
   {
-    id: "1",
-    type: "default",
-    data: { label: "AI Research" },
+    id: "n1",
+    position: {
+      x: 0,
+      y: 0,
+    },
     style: {
       background: "#8b5cf6",
+      border: "1px solid black",
+      borderRadius: "5px",
       color: "white",
-      border: "1px solid #7c3aed",
-      borderRadius: "8px",
+
       padding: "10px",
-      fontSize: "14px",
-      fontWeight: "bold",
+    },
+    data: {
+      label: "AI Overview",
     },
   },
   {
-    id: "2",
-    data: { label: "Machine Learning" },
+    id: "n2",
+    position: {
+      x: 200,
+      y: 0,
+    },
     style: {
       background: "#14b8a6",
+      border: "1px solid black",
+      borderRadius: "5px",
       color: "white",
-      border: "1px solid #0d9488",
-      borderRadius: "8px",
+
       padding: "10px",
+    },
+    data: {
+      label: "Introduction",
     },
   },
   {
-    id: "3",
-    data: { label: "Deep Learning" },
+    id: "n3",
+    position: {
+      x: 200,
+      y: 120,
+    },
     style: {
       background: "#14b8a6",
+      border: "1px solid black",
+      borderRadius: "5px",
       color: "white",
-      border: "1px solid #0d9488",
-      borderRadius: "8px",
+
       padding: "10px",
+    },
+    data: {
+      label: "Machine Learning",
     },
   },
   {
-    id: "4",
-    data: { label: "Neural Networks" },
+    id: "n4",
+    position: {
+      x: 200,
+      y: 240,
+    },
+    style: {
+      background: "#14b8a6",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Deep Learning",
+    },
+  },
+  {
+    id: "n5",
+    position: {
+      x: 200,
+      y: 360,
+    },
+    style: {
+      background: "#14b8a6",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Applications",
+    },
+  },
+  {
+    id: "n6",
+    position: {
+      x: 400,
+      y: 0,
+    },
     style: {
       background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
       color: "white",
-      border: "1px solid #4f46e5",
-      borderRadius: "8px",
+
       padding: "10px",
+    },
+    data: {
+      label: "What is AI",
     },
   },
   {
-    id: "5",
-    data: { label: "CNN" },
-    style: {
-      background: "#ec4899",
-      color: "white",
-      border: "1px solid #db2777",
-      borderRadius: "8px",
-      padding: "10px",
+    id: "n7",
+    position: {
+      x: 400,
+      y: 120,
     },
-  },
-  {
-    id: "6",
-    data: { label: "RNN" },
-    style: {
-      background: "#ec4899",
-      color: "white",
-      border: "1px solid #db2777",
-      borderRadius: "8px",
-      padding: "10px",
-    },
-  },
-  {
-    id: "7",
-    data: { label: "Transformers" },
-    style: {
-      background: "#ec4899",
-      color: "white",
-      border: "1px solid #db2777",
-      borderRadius: "8px",
-      padding: "10px",
-    },
-  },
-  {
-    id: "8",
-    data: { label: "NLP" },
     style: {
       background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
       color: "white",
-      border: "1px solid #4f46e5",
-      borderRadius: "8px",
+
       padding: "10px",
+    },
+    data: {
+      label: "History of AI",
     },
   },
   {
-    id: "9",
-    data: { label: "Computer Vision" },
+    id: "n8",
+    position: {
+      x: 400,
+      y: 240,
+    },
     style: {
       background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
       color: "white",
-      border: "1px solid #4f46e5",
-      borderRadius: "8px",
+
       padding: "10px",
+    },
+    data: {
+      label: "Supervised Learning",
+    },
+  },
+  {
+    id: "n9",
+    position: {
+      x: 400,
+      y: 360,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Unsupervised Learning",
+    },
+  },
+  {
+    id: "n10",
+    position: {
+      x: 400,
+      y: 480,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Reinforcement Learning",
+    },
+  },
+  {
+    id: "n11",
+    position: {
+      x: 400,
+      y: 600,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Neural Networks",
+    },
+  },
+  {
+    id: "n12",
+    position: {
+      x: 400,
+      y: 720,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Convolutional Neural Networks",
+    },
+  },
+  {
+    id: "n13",
+    position: {
+      x: 400,
+      y: 840,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Recurrent Neural Networks",
+    },
+  },
+  {
+    id: "n14",
+    position: {
+      x: 400,
+      y: 960,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Transformers",
+    },
+  },
+  {
+    id: "n15",
+    position: {
+      x: 400,
+      y: 1080,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Natural Language Processing",
+    },
+  },
+  {
+    id: "n16",
+    position: {
+      x: 400,
+      y: 1200,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Computer Vision",
+    },
+  },
+  {
+    id: "n17",
+    position: {
+      x: 400,
+      y: 1320,
+    },
+    style: {
+      background: "#6366f1",
+      border: "1px solid black",
+      borderRadius: "5px",
+      color: "white",
+
+      padding: "10px",
+    },
+    data: {
+      label: "Robotics",
     },
   },
 ];
 
 // Mock data for mind map edges
 const initialEdges: Edge[] = [
-  { id: "e1-2", source: "1", target: "2", animated: true },
-  { id: "e1-3", source: "1", target: "3", animated: true },
-  { id: "e3-4", source: "3", target: "4" },
-  { id: "e4-5", source: "4", target: "5" },
-  { id: "e4-6", source: "4", target: "6" },
-  { id: "e4-7", source: "4", target: "7" },
-  { id: "e2-8", source: "2", target: "8" },
-  { id: "e3-9", source: "3", target: "9" },
+  {
+    animated: true,
+    id: "e1-2",
+    source: "n1",
+    target: "n2",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e1-3",
+    source: "n1",
+    target: "n3",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e1-4",
+    source: "n1",
+    target: "n4",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e1-5",
+    source: "n1",
+    target: "n5",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e2-6",
+    source: "n2",
+    target: "n6",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e2-7",
+    source: "n2",
+    target: "n7",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e3-8",
+    source: "n3",
+    target: "n8",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e3-9",
+    source: "n3",
+    target: "n9",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e3-10",
+    source: "n3",
+    target: "n10",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e4-11",
+    source: "n4",
+    target: "n11",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e4-12",
+    source: "n4",
+    target: "n12",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e4-13",
+    source: "n4",
+    target: "n13",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e4-14",
+    source: "n4",
+    target: "n14",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e5-15",
+    source: "n5",
+    target: "n15",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e5-16",
+    source: "n5",
+    target: "n16",
+    data: {
+      label: null,
+    },
+  },
+  {
+    animated: true,
+    id: "e5-17",
+    source: "n5",
+    target: "n17",
+    data: {
+      label: null,
+    },
+  },
 ];
 
 const MindMap = () => {
-  const initialNodes = generateTreeLayout(initialNodesData, initialEdges);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodesData);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect: OnConnect = useCallback(
