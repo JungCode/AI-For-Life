@@ -1,0 +1,20 @@
+mutation CreateMindmap($input: ClientCreateMindMapDTO!) {
+  createMindmap(input: $input) {
+    created_at
+    data {
+      edges {
+        animated
+        data {
+          label
+        }
+        id
+        source
+        target
+      }
+    }
+    id
+    summary
+    updated_at
+    workspaceId
+  }
+}

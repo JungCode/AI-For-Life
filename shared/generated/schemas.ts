@@ -236,6 +236,13 @@ export type SimpleChatMutationVariables = Exact<{
 
 export type SimpleChatMutation = { __typename?: 'Mutation', simpleChat: { __typename?: 'ClientSimpleChatResponse', response: string, threadId: string } };
 
+export type CreateMindmapMutationVariables = Exact<{
+  input: ClientCreateMindMapDto;
+}>;
+
+
+export type CreateMindmapMutation = { __typename?: 'Mutation', createMindmap: { __typename?: 'ClientMindMapResponse', created_at: any, id: string, summary?: string | null, updated_at: any, workspaceId: string, data: { __typename?: 'MindMapData', edges: Array<{ __typename?: 'MindMapEdge', animated?: boolean | null, id: string, source: string, target: string, data?: { __typename?: 'MindMapNodeData', label?: string | null } | null }> } } };
+
 export type CreateWorkspaceMutationVariables = Exact<{
   input: ClientCreateWorkspaceDto;
 }>;
@@ -407,6 +414,54 @@ export function useSimpleChatMutation(baseOptions?: Apollo.MutationHookOptions<S
 export type SimpleChatMutationHookResult = ReturnType<typeof useSimpleChatMutation>;
 export type SimpleChatMutationResult = Apollo.MutationResult<SimpleChatMutation>;
 export type SimpleChatMutationOptions = Apollo.BaseMutationOptions<SimpleChatMutation, SimpleChatMutationVariables>;
+export const CreateMindmapDocument = gql`
+    mutation CreateMindmap($input: ClientCreateMindMapDTO!) {
+  createMindmap(input: $input) {
+    created_at
+    data {
+      edges {
+        animated
+        data {
+          label
+        }
+        id
+        source
+        target
+      }
+    }
+    id
+    summary
+    updated_at
+    workspaceId
+  }
+}
+    `;
+export type CreateMindmapMutationFn = Apollo.MutationFunction<CreateMindmapMutation, CreateMindmapMutationVariables>;
+
+/**
+ * __useCreateMindmapMutation__
+ *
+ * To run a mutation, you first call `useCreateMindmapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMindmapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMindmapMutation, { data, loading, error }] = useCreateMindmapMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateMindmapMutation(baseOptions?: Apollo.MutationHookOptions<CreateMindmapMutation, CreateMindmapMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMindmapMutation, CreateMindmapMutationVariables>(CreateMindmapDocument, options);
+      }
+export type CreateMindmapMutationHookResult = ReturnType<typeof useCreateMindmapMutation>;
+export type CreateMindmapMutationResult = Apollo.MutationResult<CreateMindmapMutation>;
+export type CreateMindmapMutationOptions = Apollo.BaseMutationOptions<CreateMindmapMutation, CreateMindmapMutationVariables>;
 export const CreateWorkspaceDocument = gql`
     mutation CreateWorkspace($input: ClientCreateWorkspaceDto!) {
   createWorkspace(input: $input) {

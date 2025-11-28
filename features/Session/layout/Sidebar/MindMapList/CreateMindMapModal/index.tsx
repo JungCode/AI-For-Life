@@ -17,7 +17,8 @@ import {
   SUPPORTED_FILE_EXTENSIONS,
   SUPPORTED_FILE_FORMATS_DISPLAY,
 } from "@/shared/constants/fileFormats";
-import { UploadButton } from "./CreateMindMapModal/UploadButton";
+import { UploadButton } from "./UploadButton";
+import { useCreateMindmapMutation } from "@/shared/generated/schemas";
 
 interface ICreateMindMapModalProps {
   isOpen: boolean;
@@ -30,6 +31,7 @@ const CreateMindMapModal = ({
 }: ICreateMindMapModalProps) => {
   const [title, setTitle] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [createMindmap] = useCreateMindmapMutation();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

@@ -65,7 +65,11 @@ export default function LoginPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2 bg-linear-to-r from-purple-400 to-teal-400 bg-clip-text text-transparent">
-            Welcome Back
+            <span className="font-bold">
+              <span className="text-red-500">V</span>
+              <span className="text-yellow-400">K</span>
+              <span className="text-blue-500">U </span> ClickSolve
+            </span>
           </h1>
           <p className="text-muted-foreground">
             Sign in to your research assistant account
