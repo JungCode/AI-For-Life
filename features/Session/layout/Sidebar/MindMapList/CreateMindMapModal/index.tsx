@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 import {
   Dialog,
@@ -23,28 +24,44 @@ import {
 import { UploadButton } from "./UploadButton";
 import {
   CreateMindmapMutationVariables,
+  GetMindmapsDocument,
   useCreateMindmapMutation,
 } from "@/shared/generated/schemas";
+import { useRouter } from "next/navigation";
 
 interface ICreateMindMapModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  workspaceId: string;
 }
 
 const CreateMindMapModal = ({
   isOpen,
   onOpenChange,
+  workspaceId,
 }: ICreateMindMapModalProps) => {
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const { register, handleSubmit, watch, reset } =
     useForm<CreateMindmapMutationVariables["input"]>();
 
-  const [createMindmap] = useCreateMindmapMutation({
-    onCompleted: () => {
+  const [createMindmap, { loading: isLoading }] = useCreateMindmapMutation({
+    context: {
+      headers: {
+        ["x-workspace-id"]: workspaceId,
+      },
+    },
+    refetchQueries: [GetMindmapsDocument],
+    onCompleted: (data) => {
       toast.success("Mind map created successfully!");
+
       setSelectedFile(null);
       onOpenChange(false);
+
+      router.push(
+        `/workspace/${workspaceId}/mind-map/${data.createMindmap.id}`
+      );
     },
     onError: (error) => {
       toast.error(error.message || "Failed to create mind map");
@@ -122,9 +139,10 @@ const CreateMindMapModal = ({
           <Button
             type="submit"
             onClick={handleSubmit(onSubmit)}
-            disabled={!titleWatch?.trim() || !selectedFile}
+            disabled={!titleWatch?.trim() || !selectedFile || isLoading}
           >
-            Create Mind Map
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading ? "Creating..." : "Create Mind Map"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -11,23 +11,20 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { CreateMindMapModal } from "./CreateMindMapModal";
+import { useGetMindmapsQuery } from "@/shared/generated/schemas";
 
-export interface IMindMap {
-  id: string;
-  title: string;
-  description: string;
-  timestamp: Date;
-}
-
-interface IMindMapListProps {
-  mindMaps: IMindMap[] | undefined;
-}
-
-const MindMapList = ({ mindMaps }: IMindMapListProps) => {
+const MindMapList = () => {
   const { mindMapId: currentMindMapId, workspaceId: currentWorkspaceId } =
     useParams();
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { data: mindMapsData } = useGetMindmapsQuery({
+    variables: {
+      workspaceId: (currentWorkspaceId as string) || "",
+    },
+  });
+  const mindMaps = mindMapsData?.getMindmaps;
 
   const handleChangeMindMap = (mindMapId: string) => () => {
     if (mindMapId === currentMindMapId) return;
@@ -75,18 +72,18 @@ const MindMapList = ({ mindMaps }: IMindMapListProps) => {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <div className="font-medium truncate text-foreground text-sm w-36">
-                            {mindMap.title}
+                            {mindMap.summary}
                           </div>
                         </TooltipTrigger>
                         <TooltipContent
                           side="right"
                           className="max-w-xs bg-popover text-popover-foreground border-border shadow-lg"
                         >
-                          <p className="text-sm">{mindMap.title}</p>
+                          <p className="text-sm"> {mindMap.summary}</p>
                         </TooltipContent>
                       </Tooltip>
                       <div className="text-xs text-muted-foreground truncate w-36">
-                        {mindMap.description}
+                        {mindMap.summary}
                       </div>
                     </div>
                   </button>
@@ -109,6 +106,7 @@ const MindMapList = ({ mindMaps }: IMindMapListProps) => {
         </div>
       </ScrollArea>
       <CreateMindMapModal
+        workspaceId={currentWorkspaceId as string}
         isOpen={isDialogOpen}
         onOpenChange={setIsDialogOpen}
       />

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 // TODO: remove this mock import
 import { IChatSession } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 import { ChatSessionList } from "./ChatSessionList";
-import { MindMapList, IMindMap } from "./MindMapList";
+import { MindMapList } from "./MindMapList";
 
 interface ISidebarProps {
   isSidebarOpen: boolean;
@@ -20,40 +20,6 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
   const { sessionId: currentSessionId, workspaceId: currentWorkspaceId } =
     useParams();
   const router = useRouter();
-
-  // TODO: Replace with actual mind map data from API
-  const mockMindMaps: IMindMap[] = [
-    {
-      id: "1",
-      title: "AI Research Overview",
-      description: "Key concepts in artificial intelligence",
-      timestamp: new Date("2025-11-20"),
-    },
-    {
-      id: "2",
-      title: "RAG Architecture",
-      description: "Retrieval-Augmented Generation system design",
-      timestamp: new Date("2025-11-22"),
-    },
-    {
-      id: "3",
-      title: "Neural Networks Fundamentals",
-      description: "Deep learning and neural network basics",
-      timestamp: new Date("2025-11-23"),
-    },
-    {
-      id: "4",
-      title: "Machine Learning Pipeline",
-      description: "End-to-end ML workflow and best practices",
-      timestamp: new Date("2025-11-24"),
-    },
-    {
-      id: "5",
-      title: "NLP Techniques",
-      description: "Natural language processing methods",
-      timestamp: new Date("2025-11-25"),
-    },
-  ];
 
   const handleOpenNewChat = () => () => {
     router.push(`/workspace/${currentWorkspaceId}/chat/new-chat`);
@@ -99,7 +65,7 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
         />
 
         {/* Mind Maps List */}
-        <MindMapList mindMaps={mockMindMaps} />
+        <MindMapList />
 
         {/* Sidebar Footer */}
         <div className="border-t border-border/50 p-3">

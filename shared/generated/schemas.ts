@@ -194,8 +194,20 @@ export type MutationUpdateWorkspaceArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getMindmapById: ClientMindMapResponse;
+  getMindmaps: Array<ClientMindMapResponse>;
   getWorkspaceInfo: IClientWorkspace;
   getWorkspaces: Array<IClientWorkspace>;
+};
+
+
+export type QueryGetMindmapByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryGetMindmapsArgs = {
+  workspaceId: Scalars['String']['input'];
 };
 
 export type RefreshTokenDto = {
@@ -242,6 +254,20 @@ export type CreateMindmapMutationVariables = Exact<{
 
 
 export type CreateMindmapMutation = { __typename?: 'Mutation', createMindmap: { __typename?: 'ClientMindMapResponse', created_at: any, id: string, summary?: string | null, updated_at: any, workspaceId: string, data: { __typename?: 'MindMapData', edges: Array<{ __typename?: 'MindMapEdge', animated?: boolean | null, id: string, source: string, target: string, data?: { __typename?: 'MindMapNodeData', label?: string | null } | null }> } } };
+
+export type GetMindmapByIdQueryVariables = Exact<{
+  getMindmapByIdId: Scalars['String']['input'];
+}>;
+
+
+export type GetMindmapByIdQuery = { __typename?: 'Query', getMindmapById: { __typename?: 'ClientMindMapResponse', summary?: string | null, id: string, workspaceId: string, data: { __typename?: 'MindMapData', edges: Array<{ __typename?: 'MindMapEdge', animated?: boolean | null, id: string, source: string, target: string, data?: { __typename?: 'MindMapNodeData', label?: string | null } | null }>, nodes: Array<{ __typename?: 'MindMapNode', content?: string | null, id: string, data?: { __typename?: 'MindMapNodeData', label?: string | null } | null, position?: { __typename?: 'MindMapPosition', y: number, x: number } | null, style?: { __typename?: 'MindMapStyle', background: string, border: string, borderRadius: string, color: string, fontSize?: string | null, fontWeight?: string | null, padding: string } | null }> } } };
+
+export type GetMindmapsQueryVariables = Exact<{
+  workspaceId: Scalars['String']['input'];
+}>;
+
+
+export type GetMindmapsQuery = { __typename?: 'Query', getMindmaps: Array<{ __typename?: 'ClientMindMapResponse', id: string, summary?: string | null, workspaceId: string }> };
 
 export type CreateWorkspaceMutationVariables = Exact<{
   input: ClientCreateWorkspaceDto;
@@ -462,6 +488,111 @@ export function useCreateMindmapMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateMindmapMutationHookResult = ReturnType<typeof useCreateMindmapMutation>;
 export type CreateMindmapMutationResult = Apollo.MutationResult<CreateMindmapMutation>;
 export type CreateMindmapMutationOptions = Apollo.BaseMutationOptions<CreateMindmapMutation, CreateMindmapMutationVariables>;
+export const GetMindmapByIdDocument = gql`
+    query GetMindmapById($getMindmapByIdId: String!) {
+  getMindmapById(id: $getMindmapByIdId) {
+    data {
+      edges {
+        animated
+        data {
+          label
+        }
+        id
+        source
+        target
+      }
+      nodes {
+        content
+        data {
+          label
+        }
+        id
+        position {
+          y
+          x
+        }
+        style {
+          background
+          border
+          borderRadius
+          color
+          fontSize
+          fontWeight
+          padding
+        }
+      }
+    }
+    summary
+    id
+    workspaceId
+  }
+}
+    `;
+
+/**
+ * __useGetMindmapByIdQuery__
+ *
+ * To run a query within a React component, call `useGetMindmapByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMindmapByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMindmapByIdQuery({
+ *   variables: {
+ *      getMindmapByIdId: // value for 'getMindmapByIdId'
+ *   },
+ * });
+ */
+export function useGetMindmapByIdQuery(baseOptions: Apollo.QueryHookOptions<GetMindmapByIdQuery, GetMindmapByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMindmapByIdQuery, GetMindmapByIdQueryVariables>(GetMindmapByIdDocument, options);
+      }
+export function useGetMindmapByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMindmapByIdQuery, GetMindmapByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMindmapByIdQuery, GetMindmapByIdQueryVariables>(GetMindmapByIdDocument, options);
+        }
+export type GetMindmapByIdQueryHookResult = ReturnType<typeof useGetMindmapByIdQuery>;
+export type GetMindmapByIdLazyQueryHookResult = ReturnType<typeof useGetMindmapByIdLazyQuery>;
+export type GetMindmapByIdQueryResult = Apollo.QueryResult<GetMindmapByIdQuery, GetMindmapByIdQueryVariables>;
+export const GetMindmapsDocument = gql`
+    query GetMindmaps($workspaceId: String!) {
+  getMindmaps(workspaceId: $workspaceId) {
+    id
+    summary
+    workspaceId
+  }
+}
+    `;
+
+/**
+ * __useGetMindmapsQuery__
+ *
+ * To run a query within a React component, call `useGetMindmapsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMindmapsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMindmapsQuery({
+ *   variables: {
+ *      workspaceId: // value for 'workspaceId'
+ *   },
+ * });
+ */
+export function useGetMindmapsQuery(baseOptions: Apollo.QueryHookOptions<GetMindmapsQuery, GetMindmapsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMindmapsQuery, GetMindmapsQueryVariables>(GetMindmapsDocument, options);
+      }
+export function useGetMindmapsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMindmapsQuery, GetMindmapsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMindmapsQuery, GetMindmapsQueryVariables>(GetMindmapsDocument, options);
+        }
+export type GetMindmapsQueryHookResult = ReturnType<typeof useGetMindmapsQuery>;
+export type GetMindmapsLazyQueryHookResult = ReturnType<typeof useGetMindmapsLazyQuery>;
+export type GetMindmapsQueryResult = Apollo.QueryResult<GetMindmapsQuery, GetMindmapsQueryVariables>;
 export const CreateWorkspaceDocument = gql`
     mutation CreateWorkspace($input: ClientCreateWorkspaceDto!) {
   createWorkspace(input: $input) {

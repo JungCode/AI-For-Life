@@ -13,7 +13,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MindMapList, IMindMap } from "./Sidebar/MindMapList";
+import { MindMapList } from "./Sidebar/MindMapList";
 
 // TODO: remove this mock import
 import { IChatSession } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
@@ -27,28 +27,6 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
   const { sessionId: currentSessionId, workspaceId: currentWorkspaceId } =
     useParams();
   const router = useRouter();
-
-  // TODO: Replace with actual mind map data from API
-  const mockMindMaps: IMindMap[] = [
-    {
-      id: "1",
-      title: "AI Research Overview",
-      description: "Key concepts in artificial intelligence",
-      timestamp: new Date(),
-    },
-    {
-      id: "2",
-      title: "RAG Architecture",
-      description: "Retrieval-Augmented Generation system design",
-      timestamp: new Date(),
-    },
-    {
-      id: "3",
-      title: "Neural Networks",
-      description: "Deep learning fundamentals",
-      timestamp: new Date(),
-    },
-  ];
 
   const handleChangeSession = (sessionId: string) => () => {
     if (sessionId === currentSessionId) return;
@@ -90,7 +68,8 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
         <div className="p-3">
           <Button
             onClick={handleOpenNewChat()}
-            className="w-full justify-start gap-2 bg-linear-to-br from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600"
+            variant="ghost"
+            className="w-full justify-start gap-2 bg-white/10 backdrop-blur-md"
             size="sm"
           >
             <Plus className="h-4 w-4" />
@@ -155,7 +134,7 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
         </div>
 
         {/* Section 2: Mind Maps */}
-        <MindMapList mindMaps={mockMindMaps} />
+        <MindMapList />
 
         {/* Sidebar Footer */}
         <div className="border-t border-border/50 p-3">

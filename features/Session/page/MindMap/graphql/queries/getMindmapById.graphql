@@ -1,0 +1,38 @@
+query GetMindmapById($getMindmapByIdId: String!) {
+  getMindmapById(id: $getMindmapByIdId) {
+    data {
+      edges {
+        animated
+        data {
+          label
+        }
+        id
+        source
+        target
+      }
+      nodes {
+        content
+        data {
+          label
+        }
+        id
+        position {
+          y
+          x
+        }
+        style {
+          background
+          border
+          borderRadius
+          color
+          fontSize
+          fontWeight
+          padding
+        }
+      }
+    }
+    summary
+    id
+    workspaceId
+  }
+}
