@@ -48,7 +48,7 @@ const InstructionChat = ({
               key={i}
               type="submit"
               onClick={() => setValue("message", prompt)}
-              className="cursor-pointer rounded-xl border-2 border-border/50 bg-card/50 backdrop-blur-sm p-4 text-left text-sm transition-all hover:border-purple-500/50 hover:bg-card hover:shadow-lg shadow-md"
+              className="cursor-pointer rounded-xl bg-gray-500/10 backdrop-blur-md border border-gray-500/20 hover:bg-gray-500/20 hover:border-gray-500/30 text-gray-300 font-semibold shadow-lg shadow-gray-500/20 transition-all p-4 text-left text-sm"
             >
               {prompt}
             </button>
