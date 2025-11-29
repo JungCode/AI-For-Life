@@ -23,7 +23,7 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }: IHeaderProps) => {
       </Button>
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-muted-foreground">
-          Nhan GPT 1.0
+          Idea Implementation
         </span>
       </div>
     </header>

@@ -144,9 +144,9 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
             className="w-full justify-start gap-2"
             asChild
           >
-            <Link href="/">
+            <Link href="/workspace">
               <Home className="h-4 w-4" />
-              Home
+              Workspaces
             </Link>
           </Button>
         </div>
