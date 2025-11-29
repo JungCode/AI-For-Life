@@ -48,7 +48,7 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
     <aside
       className={`${
         isSidebarOpen ? "w-64" : "w-0"
-      } shrink-0 border-r border-border/50 bg-card/30 transition-all duration-300 overflow-hidden`}
+      } shrink-0 border-r-2 border-border bg-card/50 backdrop-blur-sm transition-all duration-300 overflow-hidden shadow-lg`}
     >
       <div className="flex h-full flex-col">
         {/* Sidebar Header */}

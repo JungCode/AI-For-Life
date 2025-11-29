@@ -97,7 +97,10 @@ export default function ChatPage() {
   }, [messages.length]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-hidden">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex-1 overflow-hidden bg-card/10"
+    >
       {messages.length === 0 ? (
         <InstructionChat
           onSubmit={handleSubmit(onSubmit)}

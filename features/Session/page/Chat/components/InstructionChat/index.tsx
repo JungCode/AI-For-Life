@@ -48,13 +48,13 @@ const InstructionChat = ({
               key={i}
               type="submit"
               onClick={() => setValue("message", prompt)}
-              className="cursor-pointer rounded-xl border border-border/50 bg-card/50 p-4 text-left text-sm transition-all hover:border-purple-500/50 hover:bg-card"
+              className="cursor-pointer rounded-xl border-2 border-border/50 bg-card/50 backdrop-blur-sm p-4 text-left text-sm transition-all hover:border-purple-500/50 hover:bg-card hover:shadow-lg shadow-md"
             >
               {prompt}
             </button>
           ))}
         </div>
-        <div className="relative flex items-end gap-2 rounded-2xl border border-border/50 bg-card/30 p-2 focus-within:border-purple-500/50 focus-within:ring-1 focus-within:ring-purple-500/50">
+        <div className="relative flex items-end gap-2 rounded-2xl border-2 border-border/50 bg-card/30 p-2 focus-within:border-purple-500/50 focus-within:ring-1 focus-within:ring-purple-500/50">
           <Textarea
             placeholder="Ask about research papers, topics, or concepts..."
             className="min-h-[60px] max-h-[200px] resize-none border-0 bg-transparent px-3 py-3 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
