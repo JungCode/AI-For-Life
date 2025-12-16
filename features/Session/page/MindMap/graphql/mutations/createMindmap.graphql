@@ -1,6 +1,6 @@
 mutation CreateMindmap($input: ClientCreateMindMapDTO!) {
   createMindmap(input: $input) {
-    created_at
+    createdAt
     data {
       edges {
         animated
@@ -14,7 +14,7 @@ mutation CreateMindmap($input: ClientCreateMindMapDTO!) {
     }
     id
     summary
-    updated_at
+    updatedAt
     workspaceId
   }
 }

@@ -13,16 +13,15 @@ import { MindMapList } from "./MindMapList";
 
 interface ISidebarProps {
   isSidebarOpen: boolean;
-  chatSessions: IChatSession[];
 }
 
-const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
+const Sidebar = ({ isSidebarOpen }: ISidebarProps) => {
   const { sessionId: currentSessionId, workspaceId: currentWorkspaceId } =
     useParams();
   const router = useRouter();
 
   const handleOpenNewChat = () => () => {
-    router.push(`/workspace/${currentWorkspaceId}/chat/new-chat`);
+    router.push(`/workspace/${currentWorkspaceId}/chat`);
   };
 
   return (
@@ -59,7 +58,6 @@ const Sidebar = ({ isSidebarOpen, chatSessions }: ISidebarProps) => {
 
         {/* Chat Sessions List */}
         <ChatSessionList
-          chatSessions={chatSessions}
           currentWorkspaceId={currentWorkspaceId}
           currentSessionId={currentSessionId}
         />

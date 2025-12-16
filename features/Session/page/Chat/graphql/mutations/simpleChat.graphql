@@ -1,6 +1,0 @@
-mutation SimpleChat($input: ClientSimpleChatRequest!) {
-  simpleChat(input: $input) {
-    response
-    threadId
-  }
-}

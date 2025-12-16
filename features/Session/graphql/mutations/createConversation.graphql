@@ -1,0 +1,10 @@
+mutation CreateConversation($input: CreateConversationRequestDto!) {
+  createConversation(input: $input) {
+    context
+    createdAt
+    id
+    title
+    updatedAt
+    workspaceId
+  }
+}

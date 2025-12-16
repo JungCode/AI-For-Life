@@ -1,0 +1,10 @@
+query GetMessages($input: GetMessagesRequestDto!) {
+  getMessages(input: $input) {
+    content
+    conversationId
+    createdAt
+    id
+    source
+    updatedAt
+  }
+}

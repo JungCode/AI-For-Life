@@ -1,0 +1,6 @@
+mutation DeleteConversation($input: DeleteConversationRequestDto!) {
+  deleteConversation(input: $input) {
+    message
+    success
+  }
+}

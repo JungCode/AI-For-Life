@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { SimpleChatMutationVariables } from "@/shared/generated/schemas";
+import { ResearchAgentRequestDto } from "@/shared/generated/schemas";
 import { Loader2, Send, Sparkles } from "lucide-react";
 import React from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
@@ -14,8 +14,8 @@ const suggestedPrompts = [
 
 interface IInstructionChatProps {
   onSubmit: () => void;
-  register: UseFormRegister<SimpleChatMutationVariables["input"]>;
-  setValue: UseFormSetValue<SimpleChatMutationVariables["input"]>;
+  register: UseFormRegister<ResearchAgentRequestDto>;
+  setValue: UseFormSetValue<ResearchAgentRequestDto>;
   isLoading: boolean;
 }
 

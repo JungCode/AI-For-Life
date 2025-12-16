@@ -1,0 +1,6 @@
+mutation UpdateConversation($input: UpdateConversationRequestDto!) {
+  updateConversation(input: $input) {
+    message
+    success
+  }
+}

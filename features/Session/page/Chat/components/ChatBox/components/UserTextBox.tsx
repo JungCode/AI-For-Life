@@ -1,6 +1,7 @@
-import { IMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import React from "react";
+import { IMessage } from "@/features/Session/constants";
+import { MessageSource } from "@/shared/generated/schemas";
 
 interface IUserTextBoxProps {
   message: IMessage;
@@ -21,9 +22,9 @@ const UserTextBox = ({ message }: IUserTextBoxProps) => {
         <Avatar className="h-8 w-8 shrink-0">
           <AvatarFallback
             className={
-              message.role === "user"
+              message.role === MessageSource.User
                 ? "bg-muted"
-                : "bg-gradient-to-br from-purple-500 to-teal-500"
+                : "bg-linear-to-br from-purple-500 to-teal-500"
             }
           />
         </Avatar>

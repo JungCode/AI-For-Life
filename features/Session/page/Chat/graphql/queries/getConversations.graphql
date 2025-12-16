@@ -1,0 +1,10 @@
+query GetConversations {
+  getConversations {
+    context
+    createdAt
+    id
+    title
+    updatedAt
+    workspaceId
+  }
+}

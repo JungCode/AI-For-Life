@@ -9,16 +9,19 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-import { IMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 import { AITextBox } from "./components/AITextBox";
 import { UserTextBox } from "./components/UserTextBox";
 import { SearchingAvatar } from "./components/SearchingAvatar";
-import { SimpleChatMutationVariables } from "@/shared/generated/schemas";
+import {
+  MessageSource,
+  ResearchAgentRequestDto,
+} from "@/shared/generated/schemas";
+import { IMessage } from "@/features/Session/constants";
 
 interface IChatBoxProps {
   onSubmit: () => void;
   messages: IMessage[];
-  register: UseFormRegister<SimpleChatMutationVariables["input"]>;
+  register: UseFormRegister<ResearchAgentRequestDto>;
   isLoading: boolean;
   scrollRef: React.LegacyRef<HTMLDivElement> | undefined;
 }
@@ -36,7 +39,7 @@ const ChatBox = ({
         <div className="mx-auto max-w-4xl px-4 py-8">
           <div className="space-y-8">
             {messages.map((message) =>
-              message.role === "assistant" ? (
+              message.role === MessageSource.Agent ? (
                 <AITextBox key={message.id} message={message} />
               ) : (
                 <UserTextBox key={message.id} message={message} />

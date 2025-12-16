@@ -3,45 +3,19 @@
 import { Header } from "@/features/Session/layout/Header";
 import { Sidebar } from "@/features/Session/layout/Sidebar";
 import { ChatContext } from "@/shared/context/ChatContext";
-import React, { createContext, useState } from "react";
-
-export interface IChatSession {
-  id: string;
-  title: string;
-  lastMessage: string;
-  timestamp: Date;
-}
-
-const chatSessionsMock: IChatSession[] = [
-  {
-    id: "1",
-    title: "RAG Architecture Discussion",
-    lastMessage: "Explain RAG architecture in research",
-    timestamp: new Date(Date.now() - 3600000),
-  },
-  {
-    id: "2",
-    title: "Machine Learning Trends",
-    lastMessage: "Latest trends in machine learning",
-    timestamp: new Date(Date.now() - 7200000),
-  },
-  {
-    id: "3",
-    title: "Paper Evaluation Methods",
-    lastMessage: "How to evaluate paper credibility?",
-    timestamp: new Date(Date.now() - 86400000),
-  },
-];
+import { ResearchAgentRequestDto } from "@/shared/generated/schemas";
+import React, { useState } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [chatSessions, setChatSessions] =
-    useState<IChatSession[]>(chatSessionsMock);
+  const [initialMessage, setInitialMessage] = useState<
+    ResearchAgentRequestDto["message"] | undefined
+  >(undefined);
 
   return (
-    <ChatContext.Provider value={{ chatSessions, setChatSessions }}>
+    <ChatContext.Provider value={{ initialMessage, setInitialMessage }}>
       <div className="flex h-screen bg-background text-foreground">
-        <Sidebar isSidebarOpen={isSidebarOpen} chatSessions={chatSessions} />
+        <Sidebar isSidebarOpen={isSidebarOpen} />
 
         <div className="flex flex-1 flex-col overflow-hidden">
           <Header

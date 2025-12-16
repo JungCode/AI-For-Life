@@ -1,0 +1,5 @@
+mutation ResearchAgent($input: ResearchAgentRequestDto!) {
+  researchAgent(input: $input) {
+    message
+  }
+}

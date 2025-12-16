@@ -2,7 +2,7 @@
 
 import { WorkspaceList } from "@/features/Workspace/components/WorkspaceList";
 import { EditWorkspaceModal } from "@/features/Workspace/components/EditWorkspaceModal";
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { Sidebar } from "@/features/Workspace/layout/Sidebar";
 import Header from "@/features/Workspace/layout/Header";
 import { CreateWorkspaceModal } from "@/features/Workspace/components/CreateWorkspaceModal";

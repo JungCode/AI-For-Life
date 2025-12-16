@@ -35,7 +35,9 @@ export function useEditWorkspaceManagement({
         },
       },
       onCompleted: () => {
-        toast.success("Update Workspace successfully!");
+        toast.success("Update Workspace successfully!", {
+          position: "top-center",
+        });
         onClose();
       },
       onError: (e) => {
@@ -53,7 +55,9 @@ export function useEditWorkspaceManagement({
         },
       },
       onCompleted: () => {
-        toast.success("Delete Workspace successfully!");
+        toast.success("Delete Workspace successfully!", {
+          position: "top-center",
+        });
         onClose();
       },
       onError: (e) => {

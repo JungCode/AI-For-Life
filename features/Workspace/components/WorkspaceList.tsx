@@ -1,14 +1,17 @@
+"use client";
+
 import { Workspace } from "@/app/(private)/workspace/page";
 import {
   ChevronRight,
+  Loader2,
   MessageCircle,
   MessageSquare,
   Settings,
   Users,
 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useWorkspaceContext } from "../hooks/useWorkspaceContext";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { GetWorkspacesQuery } from "@/shared/generated/schemas";
 import { EmptyWorkspaceState } from "./EmptyWorkspaceState";
 
@@ -18,6 +21,13 @@ interface IWorkspaceList {
 
 const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
   const { setSelectedWorkspace, setIsCreateModalOpen } = useWorkspaceContext();
+  const router = useRouter();
+  const [loadingWorkspaceId, setLoadingWorkspaceId] = useState<string>();
+
+  const handleOpenWorkspace = (workspaceId: string) => {
+    setLoadingWorkspaceId(workspaceId);
+    router.push(`workspace/${workspaceId}/chat`);
+  };
 
   // Empty state
   if (!workspaces || workspaces.length === 0) {
@@ -118,17 +128,27 @@ const WorkspaceList = ({ workspaces }: IWorkspaceList) => {
 
             {/* Footer action */}
             <div>
-              <Link
-                href={`workspace/${workspace.id}/chat`}
-                className="cursor-pointer w-full py-2.5 px-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-foreground font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group-hover:gap-3"
+              <button
+                onClick={() => handleOpenWorkspace(workspace.id)}
+                disabled={loadingWorkspaceId === workspace.id}
+                className="cursor-pointer w-full py-2.5 px-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-foreground font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 group-hover:gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <MessageSquare size={16} />
-                <span>Open Workspace</span>
-                <ChevronRight
-                  size={16}
-                  className="opacity-0 group-hover:opacity-100 transition-all"
-                />
-              </Link>
+                {loadingWorkspaceId === workspace.id ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Opening...</span>
+                  </>
+                ) : (
+                  <>
+                    <MessageSquare size={16} />
+                    <span>Open Workspace</span>
+                    <ChevronRight
+                      size={16}
+                      className="opacity-0 group-hover:opacity-100 transition-all"
+                    />
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>

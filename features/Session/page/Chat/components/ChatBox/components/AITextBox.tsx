@@ -3,10 +3,11 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { IMessage } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
-
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+
+import { MessageSource } from "@/shared/generated/schemas";
+import { IMessage } from "@/features/Session/constants";
 
 interface IAITextBoxProps {
   message: IMessage;
@@ -19,17 +20,21 @@ const AITextBox = ({ message }: IAITextBoxProps) => {
         <Avatar className="h-8 w-8 shrink-0">
           <AvatarFallback
             className={
-              message.role === "user"
+              message.role === MessageSource.User
                 ? "bg-muted"
                 : "bg-linear-to-br from-purple-500 to-teal-500"
             }
           >
-            {message.role === "user" ? "U" : <Sparkles className="h-4 w-4" />}
+            {message.role === MessageSource.User ? (
+              "U"
+            ) : (
+              <Sparkles className="h-4 w-4" />
+            )}
           </AvatarFallback>
         </Avatar>
         <div className="flex-1 space-y-2">
           <div className="text-sm font-medium">
-            {message.role === "user" ? "You" : "Research AI"}
+            {message.role === MessageSource.User ? "You" : "Research AI"}
           </div>
           <div className="prose max-w-none">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>

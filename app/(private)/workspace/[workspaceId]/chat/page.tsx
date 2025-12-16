@@ -1,27 +1,16 @@
 "use client";
 
-import { useState, useRef, useEffect, useContext } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import type React from "react";
 
 import { InstructionChat } from "@/features/Session/page/Chat/components/InstructionChat";
-import { ChatBox } from "@/features/Session/page/Chat/components/ChatBox";
-import { useChatContext } from "@/features/Session/hooks/useChatContext";
 import {
-  SimpleChatMutationVariables,
-  useSimpleChatMutation,
+  GetConversationsDocument,
+  ResearchAgentRequestDto,
+  useCreateConversationMutation,
 } from "@/shared/generated/schemas";
-
-export interface IMessage {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  sources?: Array<{
-    title: string;
-    url: string;
-    snippet: string;
-  }>;
-}
+import { useParams, useRouter } from "next/navigation";
+import { useChatContext } from "@/features/Session/hooks/useChatContext";
 
 export interface IChatSession {
   id: string;
@@ -31,92 +20,50 @@ export interface IChatSession {
 }
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<IMessage[]>([]);
-  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
-
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const { setChatSessions } = useChatContext();
+  const { workspaceId } = useParams();
+  const router = useRouter();
+  const { setInitialMessage } = useChatContext();
 
   const { register, handleSubmit, setValue } =
-    useForm<SimpleChatMutationVariables["input"]>();
+    useForm<ResearchAgentRequestDto>();
 
-  const [simpleChat, { loading: isLoading }] = useSimpleChatMutation({
-    onCompleted: (data) => {
-      setValue("message", "");
-      const aiMessage: IMessage = {
-        id: Date.now().toString(),
-        role: "assistant",
-        content: data.simpleChat.response,
-      };
-      setMessages((prev) => [...prev, aiMessage]);
-    },
-  });
+  const [createConversation, { loading: isCreatingConversation }] =
+    useCreateConversationMutation({
+      context: {
+        headers: {
+          "x-workspace-id": workspaceId,
+        },
+      },
+      onCompleted: (data) => {
+        router.replace(
+          `/workspace/${workspaceId}/chat/${data.createConversation.id}`
+        );
+      },
+      refetchQueries: [GetConversationsDocument],
+    });
 
-  const onSubmit = async (data: SimpleChatMutationVariables["input"]) => {
-    const messageContent = data.message;
-    if (!messageContent.trim() || isLoading) return;
+  const onSubmit = async (data: ResearchAgentRequestDto) => {
+    setInitialMessage?.(data.message);
+    const messageSnippet =
+      data.message.slice(0, 50) + (data.message.length > 50 ? "..." : "");
 
-    const userMessage: IMessage = {
-      id: Date.now().toString(),
-      role: "user",
-      content: messageContent,
-    };
-
-    simpleChat({
+    createConversation({
       variables: {
         input: {
-          message: messageContent,
-          threadId: "asdfasdfas",
+          title: messageSnippet,
         },
       },
     });
-
-    setMessages((prev) => [...prev, userMessage]);
-
-    // if (messages.length === 0 && !currentSessionId) {
-    //   setValue("message", "");
-    //   // TODO: refectch api instead
-    //   const newSession: IChatSession = {
-    //     id: Date.now().toString(),
-    //     title:
-    //       messageContent.slice(0, 50) +
-    //       (messageContent.length > 50 ? "..." : ""),
-    //     lastMessage: messageContent,
-    //     timestamp: new Date(),
-    //   };
-    //   setChatSessions((prev) => [newSession, ...prev]);
-    //   setCurrentSessionId(newSession.id);
-    // }
   };
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages.length]);
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex-1 overflow-hidden bg-card"
-    >
-      {messages.length === 0 ? (
-        <InstructionChat
-          onSubmit={handleSubmit(onSubmit)}
-          setValue={setValue}
-          register={register}
-          isLoading={isLoading}
-        />
-      ) : (
-        <ChatBox
-          scrollRef={scrollRef}
-          onSubmit={handleSubmit(onSubmit)}
-          register={register}
-          messages={messages}
-          isLoading={isLoading}
-        />
-      )}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-hidden ">
+      <InstructionChat
+        onSubmit={handleSubmit(onSubmit)}
+        setValue={setValue}
+        register={register}
+        isLoading={isCreatingConversation}
+      />
     </form>
   );
 }

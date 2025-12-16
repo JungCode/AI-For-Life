@@ -87,7 +87,7 @@ export function EditWorkspaceModal({
               type="button"
               onClick={handleDelete}
               disabled={isDeleting || isUpdating}
-              className="sm:mr-auto bg-green-500/10 backdrop-blur-md border border-green-500/20 hover:bg-green-500/20 hover:border-green-500/30 text-green-300 font-semibold shadow-lg shadow-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="sm:mr-auto bg-red-500/10 backdrop-blur-md border border-red-500/20 hover:bg-red-500/20 hover:border-red-500/30 text-red-300 font-semibold shadow-lg shadow-red-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {isDeleting ? (
                 <>

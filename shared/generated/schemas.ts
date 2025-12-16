@@ -30,11 +30,11 @@ export type ClientCreateWorkspaceDto = {
 
 export type ClientMindMapResponse = {
   __typename?: 'ClientMindMapResponse';
-  created_at: Scalars['DateTime']['output'];
+  createdAt: Scalars['DateTime']['output'];
   data: MindMapData;
   id: Scalars['ID']['output'];
   summary?: Maybe<Scalars['String']['output']>;
-  updated_at: Scalars['DateTime']['output'];
+  updatedAt: Scalars['DateTime']['output'];
   workspaceId: Scalars['String']['output'];
 };
 
@@ -59,6 +59,28 @@ export type ClientSimpleChatResponse = {
 export type ClientUpdateWorkspaceDto = {
   avatarKey?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+};
+
+export type ConversationResponseDto = {
+  __typename?: 'ConversationResponseDto';
+  context?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  title: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  workspaceId: Scalars['String']['output'];
+};
+
+export type CreateConversationRequestDto = {
+  title: Scalars['String']['input'];
+};
+
+export type DeleteConversationRequestDto = {
+  conversationId: Scalars['String']['input'];
+};
+
+export type GetMessagesRequestDto = {
+  conversationId: Scalars['String']['input'];
 };
 
 export type IClientRefreshTokenResponse = {
@@ -92,6 +114,21 @@ export type LoginResponse = {
   lastName: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
 };
+
+export type MessageResponseDto = {
+  __typename?: 'MessageResponseDto';
+  content: Scalars['String']['output'];
+  conversationId: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
+  source: MessageSource;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export enum MessageSource {
+  Agent = 'AGENT',
+  User = 'USER'
+}
 
 export type MindMapData = {
   __typename?: 'MindMapData';
@@ -141,15 +178,24 @@ export type MindMapStyle = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createConversation: ConversationResponseDto;
   createMindmap: ClientMindMapResponse;
   createWorkspace: IClientWorkspace;
+  deleteConversation: ResponseBaseMessage;
   deleteWorkspace: ResponseBaseMessage;
   logIn: LoginResponse;
   logOut: ResponseBaseMessage;
   refreshToken: IClientRefreshTokenResponse;
+  researchAgent: ResearchAgentResponseDto;
   signUp: IClientRefreshTokenResponse;
   simpleChat: ClientSimpleChatResponse;
+  updateConversation: ResponseBaseMessage;
   updateWorkspace: ResponseBaseMessage;
+};
+
+
+export type MutationCreateConversationArgs = {
+  input: CreateConversationRequestDto;
 };
 
 
@@ -160,6 +206,11 @@ export type MutationCreateMindmapArgs = {
 
 export type MutationCreateWorkspaceArgs = {
   input: ClientCreateWorkspaceDto;
+};
+
+
+export type MutationDeleteConversationArgs = {
+  input: DeleteConversationRequestDto;
 };
 
 
@@ -178,6 +229,11 @@ export type MutationRefreshTokenArgs = {
 };
 
 
+export type MutationResearchAgentArgs = {
+  input: ResearchAgentRequestDto;
+};
+
+
 export type MutationSignUpArgs = {
   input: ClientSignUpDto;
 };
@@ -188,16 +244,28 @@ export type MutationSimpleChatArgs = {
 };
 
 
+export type MutationUpdateConversationArgs = {
+  input: UpdateConversationRequestDto;
+};
+
+
 export type MutationUpdateWorkspaceArgs = {
   input: ClientUpdateWorkspaceDto;
 };
 
 export type Query = {
   __typename?: 'Query';
+  getConversations: Array<ConversationResponseDto>;
+  getMessages: Array<MessageResponseDto>;
   getMindmapById: ClientMindMapResponse;
   getMindmaps: Array<ClientMindMapResponse>;
   getWorkspaceInfo: IClientWorkspace;
   getWorkspaces: Array<IClientWorkspace>;
+};
+
+
+export type QueryGetMessagesArgs = {
+  input: GetMessagesRequestDto;
 };
 
 
@@ -214,10 +282,25 @@ export type RefreshTokenDto = {
   refreshToken: Scalars['String']['input'];
 };
 
+export type ResearchAgentRequestDto = {
+  message: Scalars['String']['input'];
+  threadId: Scalars['String']['input'];
+};
+
+export type ResearchAgentResponseDto = {
+  __typename?: 'ResearchAgentResponseDto';
+  message: Scalars['String']['output'];
+};
+
 export type ResponseBaseMessage = {
   __typename?: 'ResponseBaseMessage';
   message?: Maybe<Scalars['String']['output']>;
   success: Scalars['Boolean']['output'];
+};
+
+export type UpdateConversationRequestDto = {
+  conversationId: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type LogInMutationVariables = Exact<{
@@ -241,19 +324,52 @@ export type SignUpMutationVariables = Exact<{
 
 export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'IClientRefreshTokenResponse', accessToken: string, refreshToken: string } };
 
-export type SimpleChatMutationVariables = Exact<{
-  input: ClientSimpleChatRequest;
+export type CreateConversationMutationVariables = Exact<{
+  input: CreateConversationRequestDto;
 }>;
 
 
-export type SimpleChatMutation = { __typename?: 'Mutation', simpleChat: { __typename?: 'ClientSimpleChatResponse', response: string, threadId: string } };
+export type CreateConversationMutation = { __typename?: 'Mutation', createConversation: { __typename?: 'ConversationResponseDto', context?: string | null, createdAt?: any | null, id: string, title: string, updatedAt?: any | null, workspaceId: string } };
+
+export type DeleteConversationMutationVariables = Exact<{
+  input: DeleteConversationRequestDto;
+}>;
+
+
+export type DeleteConversationMutation = { __typename?: 'Mutation', deleteConversation: { __typename?: 'ResponseBaseMessage', message?: string | null, success: boolean } };
+
+export type UpdateConversationMutationVariables = Exact<{
+  input: UpdateConversationRequestDto;
+}>;
+
+
+export type UpdateConversationMutation = { __typename?: 'Mutation', updateConversation: { __typename?: 'ResponseBaseMessage', message?: string | null, success: boolean } };
+
+export type ResearchAgentMutationVariables = Exact<{
+  input: ResearchAgentRequestDto;
+}>;
+
+
+export type ResearchAgentMutation = { __typename?: 'Mutation', researchAgent: { __typename?: 'ResearchAgentResponseDto', message: string } };
+
+export type GetConversationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetConversationsQuery = { __typename?: 'Query', getConversations: Array<{ __typename?: 'ConversationResponseDto', context?: string | null, createdAt?: any | null, id: string, title: string, updatedAt?: any | null, workspaceId: string }> };
+
+export type GetMessagesQueryVariables = Exact<{
+  input: GetMessagesRequestDto;
+}>;
+
+
+export type GetMessagesQuery = { __typename?: 'Query', getMessages: Array<{ __typename?: 'MessageResponseDto', content: string, conversationId: string, createdAt: any, id: string, source: MessageSource, updatedAt: any }> };
 
 export type CreateMindmapMutationVariables = Exact<{
   input: ClientCreateMindMapDto;
 }>;
 
 
-export type CreateMindmapMutation = { __typename?: 'Mutation', createMindmap: { __typename?: 'ClientMindMapResponse', created_at: any, id: string, summary?: string | null, updated_at: any, workspaceId: string, data: { __typename?: 'MindMapData', edges: Array<{ __typename?: 'MindMapEdge', animated?: boolean | null, id: string, source: string, target: string, data?: { __typename?: 'MindMapNodeData', label?: string | null } | null }> } } };
+export type CreateMindmapMutation = { __typename?: 'Mutation', createMindmap: { __typename?: 'ClientMindMapResponse', createdAt: any, id: string, summary?: string | null, updatedAt: any, workspaceId: string, data: { __typename?: 'MindMapData', edges: Array<{ __typename?: 'MindMapEdge', animated?: boolean | null, id: string, source: string, target: string, data?: { __typename?: 'MindMapNodeData', label?: string | null } | null }> } } };
 
 export type GetMindmapByIdQueryVariables = Exact<{
   getMindmapByIdId: Scalars['String']['input'];
@@ -406,44 +522,228 @@ export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<SignU
 export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
-export const SimpleChatDocument = gql`
-    mutation SimpleChat($input: ClientSimpleChatRequest!) {
-  simpleChat(input: $input) {
-    response
-    threadId
+export const CreateConversationDocument = gql`
+    mutation CreateConversation($input: CreateConversationRequestDto!) {
+  createConversation(input: $input) {
+    context
+    createdAt
+    id
+    title
+    updatedAt
+    workspaceId
   }
 }
     `;
-export type SimpleChatMutationFn = Apollo.MutationFunction<SimpleChatMutation, SimpleChatMutationVariables>;
+export type CreateConversationMutationFn = Apollo.MutationFunction<CreateConversationMutation, CreateConversationMutationVariables>;
 
 /**
- * __useSimpleChatMutation__
+ * __useCreateConversationMutation__
  *
- * To run a mutation, you first call `useSimpleChatMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSimpleChatMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateConversationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateConversationMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [simpleChatMutation, { data, loading, error }] = useSimpleChatMutation({
+ * const [createConversationMutation, { data, loading, error }] = useCreateConversationMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useSimpleChatMutation(baseOptions?: Apollo.MutationHookOptions<SimpleChatMutation, SimpleChatMutationVariables>) {
+export function useCreateConversationMutation(baseOptions?: Apollo.MutationHookOptions<CreateConversationMutation, CreateConversationMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SimpleChatMutation, SimpleChatMutationVariables>(SimpleChatDocument, options);
+        return Apollo.useMutation<CreateConversationMutation, CreateConversationMutationVariables>(CreateConversationDocument, options);
       }
-export type SimpleChatMutationHookResult = ReturnType<typeof useSimpleChatMutation>;
-export type SimpleChatMutationResult = Apollo.MutationResult<SimpleChatMutation>;
-export type SimpleChatMutationOptions = Apollo.BaseMutationOptions<SimpleChatMutation, SimpleChatMutationVariables>;
+export type CreateConversationMutationHookResult = ReturnType<typeof useCreateConversationMutation>;
+export type CreateConversationMutationResult = Apollo.MutationResult<CreateConversationMutation>;
+export type CreateConversationMutationOptions = Apollo.BaseMutationOptions<CreateConversationMutation, CreateConversationMutationVariables>;
+export const DeleteConversationDocument = gql`
+    mutation DeleteConversation($input: DeleteConversationRequestDto!) {
+  deleteConversation(input: $input) {
+    message
+    success
+  }
+}
+    `;
+export type DeleteConversationMutationFn = Apollo.MutationFunction<DeleteConversationMutation, DeleteConversationMutationVariables>;
+
+/**
+ * __useDeleteConversationMutation__
+ *
+ * To run a mutation, you first call `useDeleteConversationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteConversationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteConversationMutation, { data, loading, error }] = useDeleteConversationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteConversationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteConversationMutation, DeleteConversationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteConversationMutation, DeleteConversationMutationVariables>(DeleteConversationDocument, options);
+      }
+export type DeleteConversationMutationHookResult = ReturnType<typeof useDeleteConversationMutation>;
+export type DeleteConversationMutationResult = Apollo.MutationResult<DeleteConversationMutation>;
+export type DeleteConversationMutationOptions = Apollo.BaseMutationOptions<DeleteConversationMutation, DeleteConversationMutationVariables>;
+export const UpdateConversationDocument = gql`
+    mutation UpdateConversation($input: UpdateConversationRequestDto!) {
+  updateConversation(input: $input) {
+    message
+    success
+  }
+}
+    `;
+export type UpdateConversationMutationFn = Apollo.MutationFunction<UpdateConversationMutation, UpdateConversationMutationVariables>;
+
+/**
+ * __useUpdateConversationMutation__
+ *
+ * To run a mutation, you first call `useUpdateConversationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateConversationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateConversationMutation, { data, loading, error }] = useUpdateConversationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateConversationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateConversationMutation, UpdateConversationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateConversationMutation, UpdateConversationMutationVariables>(UpdateConversationDocument, options);
+      }
+export type UpdateConversationMutationHookResult = ReturnType<typeof useUpdateConversationMutation>;
+export type UpdateConversationMutationResult = Apollo.MutationResult<UpdateConversationMutation>;
+export type UpdateConversationMutationOptions = Apollo.BaseMutationOptions<UpdateConversationMutation, UpdateConversationMutationVariables>;
+export const ResearchAgentDocument = gql`
+    mutation ResearchAgent($input: ResearchAgentRequestDto!) {
+  researchAgent(input: $input) {
+    message
+  }
+}
+    `;
+export type ResearchAgentMutationFn = Apollo.MutationFunction<ResearchAgentMutation, ResearchAgentMutationVariables>;
+
+/**
+ * __useResearchAgentMutation__
+ *
+ * To run a mutation, you first call `useResearchAgentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResearchAgentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [researchAgentMutation, { data, loading, error }] = useResearchAgentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useResearchAgentMutation(baseOptions?: Apollo.MutationHookOptions<ResearchAgentMutation, ResearchAgentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ResearchAgentMutation, ResearchAgentMutationVariables>(ResearchAgentDocument, options);
+      }
+export type ResearchAgentMutationHookResult = ReturnType<typeof useResearchAgentMutation>;
+export type ResearchAgentMutationResult = Apollo.MutationResult<ResearchAgentMutation>;
+export type ResearchAgentMutationOptions = Apollo.BaseMutationOptions<ResearchAgentMutation, ResearchAgentMutationVariables>;
+export const GetConversationsDocument = gql`
+    query GetConversations {
+  getConversations {
+    context
+    createdAt
+    id
+    title
+    updatedAt
+    workspaceId
+  }
+}
+    `;
+
+/**
+ * __useGetConversationsQuery__
+ *
+ * To run a query within a React component, call `useGetConversationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetConversationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetConversationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetConversationsQuery(baseOptions?: Apollo.QueryHookOptions<GetConversationsQuery, GetConversationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetConversationsQuery, GetConversationsQueryVariables>(GetConversationsDocument, options);
+      }
+export function useGetConversationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetConversationsQuery, GetConversationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetConversationsQuery, GetConversationsQueryVariables>(GetConversationsDocument, options);
+        }
+export type GetConversationsQueryHookResult = ReturnType<typeof useGetConversationsQuery>;
+export type GetConversationsLazyQueryHookResult = ReturnType<typeof useGetConversationsLazyQuery>;
+export type GetConversationsQueryResult = Apollo.QueryResult<GetConversationsQuery, GetConversationsQueryVariables>;
+export const GetMessagesDocument = gql`
+    query GetMessages($input: GetMessagesRequestDto!) {
+  getMessages(input: $input) {
+    content
+    conversationId
+    createdAt
+    id
+    source
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetMessagesQuery__
+ *
+ * To run a query within a React component, call `useGetMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMessagesQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetMessagesQuery(baseOptions: Apollo.QueryHookOptions<GetMessagesQuery, GetMessagesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMessagesQuery, GetMessagesQueryVariables>(GetMessagesDocument, options);
+      }
+export function useGetMessagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMessagesQuery, GetMessagesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMessagesQuery, GetMessagesQueryVariables>(GetMessagesDocument, options);
+        }
+export type GetMessagesQueryHookResult = ReturnType<typeof useGetMessagesQuery>;
+export type GetMessagesLazyQueryHookResult = ReturnType<typeof useGetMessagesLazyQuery>;
+export type GetMessagesQueryResult = Apollo.QueryResult<GetMessagesQuery, GetMessagesQueryVariables>;
 export const CreateMindmapDocument = gql`
     mutation CreateMindmap($input: ClientCreateMindMapDTO!) {
   createMindmap(input: $input) {
-    created_at
+    createdAt
     data {
       edges {
         animated
@@ -457,7 +757,7 @@ export const CreateMindmapDocument = gql`
     }
     id
     summary
-    updated_at
+    updatedAt
     workspaceId
   }
 }
