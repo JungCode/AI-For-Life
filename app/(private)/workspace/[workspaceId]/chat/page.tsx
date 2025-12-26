@@ -1,9 +1,11 @@
 "use client";
 
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import type React from "react";
 
 import { InstructionChat } from "@/features/Session/page/Chat/components/InstructionChat";
+import { SourcesPanel } from "@/features/Session/page/Chat/components/SourcesPanel";
+import { StudioPanel } from "@/features/Session/page/Chat/components/StudioPanel";
 import {
   GetConversationsDocument,
   ResearchAgentRequestDto,
@@ -11,7 +13,6 @@ import {
 } from "@/shared/generated/schemas";
 import { useParams, useRouter } from "next/navigation";
 import { useChatContext } from "@/features/Session/hooks/useChatContext";
-import { AnimatedBackground } from "@/shared/components/AnimatedBackground";
 
 export interface IChatSession {
   id: string;
@@ -58,14 +59,30 @@ export default function ChatPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-hidden ">
-      <AnimatedBackground />
-      <InstructionChat
-        onSubmit={handleSubmit(onSubmit)}
-        setValue={setValue}
-        register={register}
-        isLoading={isCreatingConversation}
-      />
-    </form>
+    <div className="h-screen overflow-hidden relative">
+      {/* Container for 3 sections */}
+      <div className="flex h-full gap-4 p-4">
+        {/* Left Panel - Sources */}
+        <SourcesPanel />
+
+        {/* Middle Panel - Chat */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex-1 overflow-hidden flex flex-col"
+          >
+            <InstructionChat
+              onSubmit={handleSubmit(onSubmit)}
+              setValue={setValue}
+              register={register}
+              isLoading={isCreatingConversation}
+            />
+          </form>
+        </div>
+
+        {/* Right Panel - Studio */}
+        <StudioPanel />
+      </div>
+    </div>
   );
 }

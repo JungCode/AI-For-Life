@@ -34,7 +34,12 @@ const ChatBox = ({
   scrollRef,
 }: IChatBoxProps) => {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
+      {/* Chat Header */}
+      <div className="p-4 border-b border-white/10">
+        <h2 className="text-lg font-semibold">Chat</h2>
+      </div>
+
       <ScrollArea className="flex-1 overflow-y-auto pb-10" ref={scrollRef}>
         <div className="mx-auto max-w-4xl px-4 py-8">
           <div className="space-y-8">
@@ -50,9 +55,9 @@ const ChatBox = ({
         </div>
       </ScrollArea>
 
-      <div className="transparent sticky bottom-0 w-full">
+      <div className="sticky bottom-0 w-full bg-black/60 backdrop-blur-md">
         <div className="flex flex-col justify-center items-center w-full px-4 py-4">
-          <div className="bg-card/30 backdrop-blur-xl relative max-w-3xl w-full flex items-end gap-2 rounded-2xl border border-border/50 p-2 focus-within:border-purple-500/50 focus-within:ring-1 focus-within:ring-purple-500/50">
+          <div className="bg-black/40 relative max-w-3xl w-full flex items-end gap-2 rounded-2xl border border-white/10 p-2 focus-within:border-purple-500/50 focus-within:ring-1 focus-within:ring-purple-500/50">
             <Textarea
               placeholder="Ask about research papers, topics, or concepts..."
               className="min-h-[60px] max-h-[200px] resize-none border-0 bg-transparent px-3 py-3 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"

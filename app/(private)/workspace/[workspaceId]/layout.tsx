@@ -2,8 +2,10 @@
 
 import { Header } from "@/features/Session/layout/Header";
 import { Sidebar } from "@/features/Session/layout/Sidebar";
+import { AnimatedBackground } from "@/shared/components/AnimatedBackground";
 import { ChatContext } from "@/shared/context/ChatContext";
 import { ResearchAgentRequestDto } from "@/shared/generated/schemas";
+
 import React, { useState } from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -15,6 +17,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ChatContext.Provider value={{ initialMessage, setInitialMessage }}>
       <div className="flex h-screen bg-background text-foreground">
+        <AnimatedBackground />
+
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
