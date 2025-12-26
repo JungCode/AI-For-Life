@@ -38,6 +38,10 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: ISidebarProps) => {
     router.push(`/workspace/${currentWorkspaceId}/chat`);
   };
 
+  const handleBackToWorkspace = () => {
+    router.push("/workspace");
+  };
+
   const navigationItems = getNavigationItems(handleOpenNewChat, isChatActive);
 
   return (
@@ -90,11 +94,11 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: ISidebarProps) => {
 
             <div className="flex flex-col flex-1 gap-2 mt-1 min-h-0">
               {/* Chat Sessions - Scrollable Half */}
-              <div className="flex flex-col flex-1 min-h-0">
+              <div className="flex flex-col flex-1 min-h-0 max-h-[250px]">
                 <div className="px-3 py-1.5 text-xs text-muted-foreground">
                   Chats
                 </div>
-                <div className="overflow-y-auto flex-1 ml-4 border-l-2 border-border/70 pl-3">
+                <div className="overflow-y-auto flex-1 ml-4 border-l-2 border-border/70 pl-3 scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   <ChatSessionList
                     currentWorkspaceId={currentWorkspaceId}
                     currentSessionId={currentSessionId}
@@ -103,11 +107,11 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: ISidebarProps) => {
               </div>
 
               {/* Mind Maps - Scrollable Half */}
-              <div className="flex flex-col flex-1 min-h-0">
+              <div className="flex flex-col flex-1 min-h-0 max-h-[250px]">
                 <div className="px-3 py-1.5 text-xs text-muted-foreground">
                   Mind Maps
                 </div>
-                <div className="overflow-y-auto flex-1 ml-4 border-l-2 border-border/70 pl-3">
+                <div className="overflow-y-auto flex-1 ml-4 border-l-2 border-border/70 pl-3 scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                   <MindMapList />
                 </div>
               </div>
@@ -126,10 +130,10 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: ISidebarProps) => {
             <Button
               variant="outline"
               size="sm"
+              onClick={handleBackToWorkspace}
               className="flex-1 h-8 text-xs border-white/20 hover:bg-white/10"
-              disabled
             >
-              Upgrade
+              Back to workspace
             </Button>
             <Button
               variant="ghost"
