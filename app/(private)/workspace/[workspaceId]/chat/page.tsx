@@ -11,6 +11,7 @@ import {
 } from "@/shared/generated/schemas";
 import { useParams, useRouter } from "next/navigation";
 import { useChatContext } from "@/features/Session/hooks/useChatContext";
+import { AnimatedBackground } from "@/shared/components/AnimatedBackground";
 
 export interface IChatSession {
   id: string;
@@ -58,6 +59,7 @@ export default function ChatPage() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-hidden ">
+      <AnimatedBackground />
       <InstructionChat
         onSubmit={handleSubmit(onSubmit)}
         setValue={setValue}

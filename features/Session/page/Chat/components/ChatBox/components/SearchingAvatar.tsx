@@ -6,7 +6,7 @@ const SearchingAvatar = () => {
   return (
     <div className="flex items-start gap-4">
       <Avatar className="h-8 w-8 shrink-0">
-        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-teal-500">
+        <AvatarFallback className="bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300">
           <Sparkles className="h-4 w-4" />
         </AvatarFallback>
       </Avatar>

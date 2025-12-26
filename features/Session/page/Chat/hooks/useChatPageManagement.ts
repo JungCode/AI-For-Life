@@ -42,7 +42,10 @@ export const useChatPageManagement = () => {
           message.source === "USER" ? MessageSource.User : MessageSource.Agent,
         content: message.content,
       }));
-      setMessages((prev) => [...prev, ...messagesData]);
+      // Only set messages if we haven't sent an initial message
+      if (!initialSentRef.current) {
+        setMessages(messagesData);
+      }
     },
   });
 
@@ -94,8 +97,10 @@ export const useChatPageManagement = () => {
   useEffect(() => {
     if (!initialMessage) return;
     if (initialSentRef.current) return;
-    setInitialMessage?.(undefined);
+
+    // Set the flag FIRST to prevent race conditions
     initialSentRef.current = true;
+    setInitialMessage?.(undefined);
 
     const userMessage: IMessage = {
       id: Date.now().toString(),
@@ -103,7 +108,7 @@ export const useChatPageManagement = () => {
       content: initialMessage,
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages([userMessage]);
 
     chat({
       variables: {
@@ -113,7 +118,7 @@ export const useChatPageManagement = () => {
         },
       },
     });
-  }, [initialMessage]);
+  }, [initialMessage, chat, sessionId, setInitialMessage]);
 
   return {
     scrollRef,

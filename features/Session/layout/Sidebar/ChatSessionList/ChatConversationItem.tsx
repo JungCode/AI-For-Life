@@ -85,11 +85,11 @@ export const ChatConversationItem = ({
     >
       <button
         onClick={onSessionChange}
-        className="cursor-pointer flex items-start gap-2 flex-1 w-full p-3 text-left"
+        className="cursor-pointer flex items-start gap-2 flex-1 min-w-0 p-2 text-left"
         disabled={isEditing}
       >
         <MessageSquare className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" />
-        <div className="flex-1 w-full">
+        <div className="flex-1 min-w-0">
           {isEditing ? (
             <input
               type="text"
@@ -104,7 +104,7 @@ export const ChatConversationItem = ({
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="font-medium truncate text-foreground text-sm w-36">
+                <div className="font-medium truncate text-foreground text-sm">
                   {session.title}
                 </div>
               </TooltipTrigger>
@@ -116,29 +116,29 @@ export const ChatConversationItem = ({
               </TooltipContent>
             </Tooltip>
           )}
-          <div className="text-xs text-muted-foreground truncate w-36">
+          <div className="text-xs text-muted-foreground truncate">
             {session.context}
           </div>
         </div>
       </button>
 
-      <div className="shrink-0">
+      <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         {isLoading ? (
-          <div className="p-3">
+          <div className="p-2">
             <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
           </div>
         ) : (
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
               <button
-                className="p-3 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent/50 rounded"
+                className="p-2 hover:bg-accent/50 rounded"
                 aria-label="More options"
                 onClick={(e) => e.stopPropagation()}
               >
                 <MoreVertical className="h-4 w-4 text-muted-foreground" />
               </button>
             </PopoverTrigger>
-            <PopoverContent className="w-48 p-1" align="end">
+            <PopoverContent className="w-48 p-1" align="start" side="right">
               <div className="flex flex-col">
                 <button
                   onClick={handleEditClick}

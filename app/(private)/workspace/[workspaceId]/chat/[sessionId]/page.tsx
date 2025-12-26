@@ -4,6 +4,7 @@ import type React from "react";
 
 import { ChatBox } from "@/features/Session/page/Chat/components/ChatBox";
 import { useChatPageManagement } from "@/features/Session/page/Chat/hooks/useChatPageManagement";
+import { AnimatedBackground } from "@/shared/components/AnimatedBackground";
 
 export interface IChatSession {
   id: string;
@@ -18,6 +19,7 @@ export default function ChatPage() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex-1 overflow-hidden">
+      <AnimatedBackground />
       <ChatBox
         scrollRef={scrollRef}
         onSubmit={handleSubmit(onSubmit)}

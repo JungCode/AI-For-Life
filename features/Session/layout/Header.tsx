@@ -9,18 +9,16 @@ interface IHeaderProps {
 
 const Header = ({ isSidebarOpen, setIsSidebarOpen }: IHeaderProps) => {
   return (
-    <header className="flex h-14 items-center gap-2 border-b border-border/50 bg-card/30 px-4">
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        {isSidebarOpen ? (
-          <PanelLeftClose className="h-5 w-5" />
-        ) : (
+    <header className="flex h-14 items-center gap-2 px-4 bg-transparent">
+      {!isSidebarOpen && (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsSidebarOpen(true)}
+        >
           <PanelLeft className="h-5 w-5" />
-        )}
-      </Button>
+        </Button>
+      )}
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-muted-foreground">
           Idea Implementation

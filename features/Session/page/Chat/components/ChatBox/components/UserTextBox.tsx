@@ -14,7 +14,7 @@ const UserTextBox = ({ message }: IUserTextBoxProps) => {
         <div className="flex flex-col items-end flex-1 space-y-2">
           <div className="text-sm font-medium">You</div>
           <div className="prose prose-invert max-w-none text-sm leading-relaxed">
-            <p className="mb-2 last:mb-0 bg-muted py-2 px-4 rounded-xl">
+            <p className="mb-2 last:mb-0 bg-blue-500/10 backdrop-blur-md border border-blue-500/20 py-2 px-4 rounded-xl text-foreground">
               {message.content}
             </p>
           </div>
@@ -23,7 +23,7 @@ const UserTextBox = ({ message }: IUserTextBoxProps) => {
           <AvatarFallback
             className={
               message.role === MessageSource.User
-                ? "bg-muted"
+                ? "bg-blue-500/20 backdrop-blur-md border border-blue-500/30 text-blue-300"
                 : "bg-linear-to-br from-purple-500 to-teal-500"
             }
           />

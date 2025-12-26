@@ -22,7 +22,7 @@ const AITextBox = ({ message }: IAITextBoxProps) => {
             className={
               message.role === MessageSource.User
                 ? "bg-muted"
-                : "bg-linear-to-br from-purple-500 to-teal-500"
+                : "bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300"
             }
           >
             {message.role === MessageSource.User ? (

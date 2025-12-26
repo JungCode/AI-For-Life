@@ -29,7 +29,7 @@ const InstructionChat = ({
     <div className="flex h-full items-center justify-center px-4">
       <div className="w-full max-w-2xl space-y-8">
         <div className="flex flex-col items-center space-y-4">
-          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-br from-purple-500/20 to-teal-500/20 ring-1 ring-purple-500/30">
+          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-br bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300">
             <Sparkles className="h-10 w-10 text-purple-400" />
           </div>
           <div className="text-center">
@@ -54,7 +54,7 @@ const InstructionChat = ({
             </button>
           ))}
         </div>
-        <div className="relative flex items-end gap-2 rounded-2xl border-2 border-border/50 bg-card/30 p-2 focus-within:border-purple-500/50 focus-within:ring-1 focus-within:ring-purple-500/50">
+        <div className="relative flex items-end gap-2 rounded-2xl border-2 border-border/50 bg-card/60 p-2 focus-within:border-purple-500/50 focus-within:ring-1 focus-within:ring-purple-500/50">
           <Textarea
             placeholder="Ask about research papers, topics, or concepts..."
             className="min-h-[60px] max-h-[200px] resize-none border-0 bg-transparent px-3 py-3 text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -71,7 +71,7 @@ const InstructionChat = ({
           <Button
             type="submit"
             size="icon"
-            className="cursor-pointer h-10 w-10 shrink-0 rounded-xl bg-linear-to-br from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600"
+            className="cursor-pointer h-10 w-10 shrink-0 rounded-xl bg-purple-500/10 backdrop-blur-md border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30 text-purple-300 "
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />

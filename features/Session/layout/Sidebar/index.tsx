@@ -1,83 +1,144 @@
 "use client";
 
-import { Plus, Home } from "lucide-react";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import {
+  RefreshCw,
+  Search,
+  ChevronLeft,
+  PanelLeft,
+  PanelLeftClose,
+} from "lucide-react";
+import { useParams, useRouter, usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-// TODO: remove this mock import
-import { IChatSession } from "@/app/(private)/workspace/[workspaceId]/chat/[sessionId]/page";
 import { ChatSessionList } from "./ChatSessionList";
 import { MindMapList } from "./MindMapList";
+import {
+  NavigationButton,
+  getNavigationItems,
+  historyItem,
+} from "./NavigationButton";
 
 interface ISidebarProps {
   isSidebarOpen: boolean;
+  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Sidebar = ({ isSidebarOpen }: ISidebarProps) => {
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: ISidebarProps) => {
   const { sessionId: currentSessionId, workspaceId: currentWorkspaceId } =
     useParams();
   const router = useRouter();
+  const pathname = usePathname();
 
-  const handleOpenNewChat = () => () => {
+  const isChatActive = pathname?.endsWith("/chat");
+
+  const handleOpenNewChat = () => {
     router.push(`/workspace/${currentWorkspaceId}/chat`);
   };
+
+  const navigationItems = getNavigationItems(handleOpenNewChat, isChatActive);
 
   return (
     <aside
       className={`${
         isSidebarOpen ? "w-64" : "w-0"
-      } shrink-0 border-r border-border/50 bg-card/30 transition-all duration-300 overflow-hidden`}
+      } shrink-0 border-r border-border/50 transition-all duration-300 overflow-hidden bg-black relative z-10`}
     >
-      <div className="flex h-full flex-col">
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between border-b border-border/50 p-4">
-          <div className="flex items-center gap-2">
-            <Link href={"/"} className="font-semibold text-sm">
-              <span className="font-bold">
-                <span className="text-red-500">V</span>
-                <span className="text-yellow-400">K</span>
-                <span className="text-blue-500">U </span> ClickSolve
-              </span>
-            </Link>
+      <div className="flex h-full flex-col p-2">
+        {/* Top Icon */}
+        <div className="flex items-center justify-between p-2 mb-2">
+          <div className="font-semibold text-sm">
+            <span className="text-red-500">V</span>
+            <span className="text-yellow-400">K</span>
+            <span className="text-blue-500">U </span>
+            ClickSolve
           </div>
-        </div>
-
-        {/* New Chat Button */}
-        <div className="p-3">
-          <Button
-            onClick={handleOpenNewChat()}
-            className="w-full justify-start gap-2 bg-linear-to-br from-purple-500 to-teal-500 hover:from-purple-600 hover:to-teal-600"
-            size="sm"
-          >
-            <Plus className="h-4 w-4" />
-            New Chat
-          </Button>
-        </div>
-
-        {/* Chat Sessions List */}
-        <ChatSessionList
-          currentWorkspaceId={currentWorkspaceId}
-          currentSessionId={currentSessionId}
-        />
-
-        {/* Mind Maps List */}
-        <MindMapList />
-
-        {/* Sidebar Footer */}
-        <div className="border-t border-border/50 p-3">
           <Button
             variant="ghost"
-            size="sm"
-            className="w-full justify-start gap-2"
-            asChild
+            size="icon"
+            className="h-8 w-8 hover:bg-white/10"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >
-            <Link href="/">
-              <Home className="h-4 w-4" />
-              Home
-            </Link>
+            {isSidebarOpen ? (
+              <PanelLeftClose className="h-4 w-4" />
+            ) : (
+              <PanelLeft className="h-4 w-4" />
+            )}
           </Button>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative mb-3 px-2">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search ⌘K"
+            className="pl-9 bg-[#2a2a2a] border-none h-9 text-sm"
+          />
+        </div>
+
+        {/* Navigation Items */}
+        <nav className="flex-1 space-y-1 px-1">
+          {navigationItems.map((item) => (
+            <NavigationButton key={item.id} item={item} />
+          ))}
+
+          {/* History Section */}
+          <div className="pt-2 flex flex-col flex-1 min-h-0">
+            <NavigationButton item={historyItem} />
+
+            <div className="flex flex-col flex-1 gap-2 mt-1 min-h-0">
+              {/* Chat Sessions - Scrollable Half */}
+              <div className="flex flex-col flex-1 min-h-0">
+                <div className="px-3 py-1.5 text-xs text-muted-foreground">
+                  Chats
+                </div>
+                <div className="overflow-y-auto flex-1 ml-4 border-l-2 border-border/70 pl-3">
+                  <ChatSessionList
+                    currentWorkspaceId={currentWorkspaceId}
+                    currentSessionId={currentSessionId}
+                  />
+                </div>
+              </div>
+
+              {/* Mind Maps - Scrollable Half */}
+              <div className="flex flex-col flex-1 min-h-0">
+                <div className="px-3 py-1.5 text-xs text-muted-foreground">
+                  Mind Maps
+                </div>
+                <div className="overflow-y-auto flex-1 ml-4 border-l-2 border-border/70 pl-3">
+                  <MindMapList />
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        {/* Bottom Section */}
+        <div className="border-t border-border/50 pt-3 px-1">
+          <div className="flex items-center gap-2 mb-2">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="bg-orange-600 text-white text-xs">
+                B
+              </AvatarFallback>
+            </Avatar>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 h-8 text-xs border-white/20 hover:bg-white/10"
+              disabled
+            >
+              Upgrade
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 hover:bg-white/10"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </aside>

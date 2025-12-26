@@ -15,7 +15,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ChatContext.Provider value={{ initialMessage, setInitialMessage }}>
       <div className="flex h-screen bg-background text-foreground">
-        <Sidebar isSidebarOpen={isSidebarOpen} />
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
 
         <div className="flex flex-1 flex-col overflow-hidden">
           <Header
