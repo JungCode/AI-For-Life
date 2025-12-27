@@ -93,22 +93,21 @@ const CreateMindMapModal = ({
 
   const onSubmit = async (data: CreateMindmapMutationVariables["input"]) => {
     // TODO: Remove this mock logic later - simulate successful creation with delay
-    if (true) {
-      // Mock: Show loading for 1 second then navigate
-      setIsMockLoading(true);
-      toast.info("Creating mind map...");
+    // Mock: Show loading for 1 second then navigate
+    setIsMockLoading(true);
+    toast.info("Creating mind map...");
 
-      setTimeout(() => {
-        toast.success("Mind map created successfully! (Mock)");
-        setSelectedFile(null);
-        setIsMockLoading(false);
-        reset();
-        onOpenChange(false);
-        router.push(`/workspace/${workspaceId}/mind-map/mock-1`);
-      }, 1000);
-      return;
-    }
+    setTimeout(() => {
+      toast.success("Mind map created successfully! (Mock)");
+      setSelectedFile(null);
+      setIsMockLoading(false);
+      reset();
+      onOpenChange(false);
+      router.push(`/workspace/${workspaceId}/mind-map/mock-1`);
+    }, 1000);
 
+    // TODO: Uncomment this when ready to use real API
+    /*
     if (!selectedFile) return;
 
     const fileContent = await selectedFile.text();
@@ -121,6 +120,7 @@ const CreateMindMapModal = ({
         },
       },
     });
+    */
   };
 
   const handleOpenChange = (open: boolean) => {
