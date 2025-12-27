@@ -42,6 +42,7 @@ const CreateMindMapModal = ({
 }: ICreateMindMapModalProps) => {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isMockLoading, setIsMockLoading] = useState(false);
 
   const { register, handleSubmit, watch, reset } =
     useForm<CreateMindmapMutationVariables["input"]>();
@@ -91,6 +92,23 @@ const CreateMindMapModal = ({
   };
 
   const onSubmit = async (data: CreateMindmapMutationVariables["input"]) => {
+    // TODO: Remove this mock logic later - simulate successful creation with delay
+    if (true) {
+      // Mock: Show loading for 1 second then navigate
+      setIsMockLoading(true);
+      toast.info("Creating mind map...");
+
+      setTimeout(() => {
+        toast.success("Mind map created successfully! (Mock)");
+        setSelectedFile(null);
+        setIsMockLoading(false);
+        reset();
+        onOpenChange(false);
+        router.push(`/workspace/${workspaceId}/mind-map/mock-1`);
+      }, 1000);
+      return;
+    }
+
     if (!selectedFile) return;
 
     const fileContent = await selectedFile.text();
@@ -139,10 +157,12 @@ const CreateMindMapModal = ({
           <Button
             type="submit"
             onClick={handleSubmit(onSubmit)}
-            disabled={!titleWatch?.trim() || !selectedFile || isLoading}
+            disabled={!titleWatch?.trim() || isLoading || isMockLoading}
           >
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isLoading ? "Creating..." : "Create Mind Map"}
+            {(isLoading || isMockLoading) && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            {isLoading || isMockLoading ? "Creating..." : "Create Mind Map"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -26,6 +26,18 @@ const MindMapList = () => {
   });
   const mindMaps = mindMapsData?.getMindmaps;
 
+  // TODO: Remove this mock data later
+  const mockMindMaps = [
+    {
+      id: "mock-1",
+      summary: "RAG Architecture Research",
+      createdAt: new Date().toISOString(),
+    },
+  ];
+
+  const displayMindMaps =
+    mindMaps && mindMaps.length > 0 ? mindMaps : mockMindMaps;
+
   const handleChangeMindMap = (mindMapId: string) => () => {
     if (mindMapId === currentMindMapId) return;
 
@@ -55,8 +67,8 @@ const MindMapList = () => {
       <ScrollArea className="flex-1 px-3 w-full">
         <div className="space-y-1 py-2">
           <TooltipProvider>
-            {mindMaps && mindMaps.length > 0 ? (
-              mindMaps.map((mindMap) => (
+            {displayMindMaps && displayMindMaps.length > 0 ? (
+              displayMindMaps.map((mindMap) => (
                 <div
                   key={mindMap.id}
                   className={`group relative flex items-center rounded-lg transition-all hover:bg-accent ${
